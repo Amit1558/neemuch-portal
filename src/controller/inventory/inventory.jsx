@@ -24,15 +24,24 @@ import { deleteInventoryById, fetchInventory, fetch } from '../../actions/posts.
 import { inventoryFetchAll } from '../../api/api-call.js';
 import { URL_INVENTORY_FETCH_ALL } from '../../constant/endpoints';
 import axios from 'axios';
+import Paginate from '../pagination/pagination.jsx';
 
 function Inventory() {
   const [openPopUp, setOpenPopup] = useState(false);
   const [openCreatePopUp, setCreatePopUp] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const [result, setResult] = useState([]);
   const [mappedValue, setMappedValue] = useState({});
+  const [post, setPost] = useState([]);
   const dispatch = useDispatch();
+  const [postPerPage, setPostPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const result = post.slice(indexOfFirstPost, indexOfLastPost);
+
+  const page = (value) => setCurrentPage(value);
+
   const handleOnDelete = () => {
     setOpenDelete(false);
     dispatch(deleteInventoryById(deleteId));
@@ -40,7 +49,7 @@ function Inventory() {
 
   useEffect(() => {
     inventoryFetchAll().then((response) => {
-      setResult(response.data.data.content);
+      setPost(response.data.data.content);
     });
   }, [])
 
@@ -60,12 +69,18 @@ function Inventory() {
     setOpenDelete(false);
   }
 
+  const checkPostCapacity = () => {
+    console.log(post.length, postPerPage)
+    console.log((post.length < postPerPage) ? false : true);
+    return (postPerPage < post.length) ? true : false;
+  };
+
   return (
     <div className="all__container" id="inventorycontainer"  >
       <Home module={MODULE_INVENTORY} />
       <Grid container spacing={5} style={{ padding: "50px 90px" }}>
         <Grid item xs={12}>
-          <Card variant="outlined" style={{ height: "175vh", borderRadius: "8px", overflowX: "hidden" }} >
+          <Card variant="outlined" style={{ height: "145vh", borderRadius: "8px", overflowX: "hidden" }} >
             <div className="all__news__popup close">
               <InventoryPopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} />
               <InventoryCreatePopUp openPopUp={openCreatePopUp} setCreatePopUp={setCreatePopUp} />
@@ -169,6 +184,11 @@ function Inventory() {
                   }
                 </div>
             }
+            <div className='pagination'>
+              <div>
+                <Paginate postPerPage={postPerPage} totalPosts={post.length} page={page} />
+              </div>
+            </div>
           </Card>
         </Grid>
       </Grid>

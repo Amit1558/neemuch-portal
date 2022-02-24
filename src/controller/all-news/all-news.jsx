@@ -23,24 +23,30 @@ import Button from '@material-ui/core/Button';
 import { deletePost, fetch } from '../../actions/posts.js'
 import axiosAuth from '../../authentication/jwtauthentication.js';
 import { URL_DELETE_NEWS } from '../../constant/endpoints.js';
-
+import Paginate from '../pagination/pagination.jsx';
 
 function AllNews() {
   const history = useHistory();
   const [openPopUp, setOpenPopup] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const [res, setRes] = useState([]);
+  const [post, setPost] = useState([]);
   const fetchedValue = useSelector(state => state.postReducer);
   const [mappedValue, setMappedValue] = useState({});
+  const [postPerPage, setPostPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const res = post.slice(indexOfFirstPost, indexOfLastPost);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (fetchedValue.data != [] && fetchedValue) {
-      setRes(fetchedValue.data);
-      console.log(res);
+      setPost(fetchedValue.data);
     }
   }, [fetchedValue])
+
+  const page = (value) => setCurrentPage(value);
 
   const openCreateNews = () => {
     history.push({
@@ -73,7 +79,7 @@ function AllNews() {
       <Home module={MODULE_ALL_NEWS} />
       <Grid container spacing={5} style={{ padding: "50px 90px" }}>
         <Grid item xs={12}>
-          <Card variant="outlined" style={{ height: "175vh", borderRadius: "8px", overflowX: "hidden" }}>
+          <Card variant="outlined" style={{ height: "145vh", borderRadius: "8px", overflowX: "hidden" }}>
             <div className="all__news__popup close">
               <PopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} />
               <Dialog
@@ -82,11 +88,11 @@ function AllNews() {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">{"Do you want to delete this item?"}</DialogTitle>
-                 <DialogContent>
-                   <DialogContentText id="alert-dialog-description">
-                     This news item would be deleted permanently from the database.
-                   </DialogContentText>
-                 </DialogContent>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    This news item would be deleted permanently from the database.
+                  </DialogContentText>
+                </DialogContent>
                 <DialogActions>
                   <Button onClick={handleOnDelete} color="primary">
                     Confirm
@@ -167,6 +173,11 @@ function AllNews() {
                   }
                 </div>
             }
+            <div className='pagination'>
+              <div>
+                <Paginate postPerPage={postPerPage} totalPosts={post.length} page={page} />
+              </div>
+            </div>
           </Card>
         </Grid>
       </Grid>
