@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { CircularProgress } from '@material-ui/core'
 import makeStyles from '../dashboard/slider/styles.js';
 import Paginate from '../pagination/pagination.jsx';
+import { feedBack } from '../../api/api-call';
 
 function Dashboard() {
   var settings = {
@@ -32,10 +33,10 @@ function Dashboard() {
   const res = post.slice(indexOfFirstPost, indexOfLastPost);
   const fetchedValue = useSelector(state => state.postReducer);
   useEffect(() => {
-    if (fetchedValue && fetchedValue.data != []) {
-      setPost(fetchedValue.data);
-    }
-  }, [fetchedValue])
+    feedBack().then((response) => {
+      setPost(response.data.data);
+    });
+  }, [])
 
   const page = (value) => setCurrentPage(value);
 

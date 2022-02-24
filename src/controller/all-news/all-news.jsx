@@ -24,6 +24,7 @@ import { deletePost, fetch } from '../../actions/posts.js'
 import axiosAuth from '../../authentication/jwtauthentication.js';
 import { URL_DELETE_NEWS } from '../../constant/endpoints.js';
 import Paginate from '../pagination/pagination.jsx';
+import { feedBack } from '../../api/api-call.js';
 
 function AllNews() {
   const history = useHistory();
@@ -41,10 +42,10 @@ function AllNews() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (fetchedValue.data != [] && fetchedValue) {
-      setPost(fetchedValue.data);
-    }
-  }, [fetchedValue])
+      feedBack().then((response) => {
+        setPost(response.data.data);
+      });
+  }, [])
 
   const page = (value) => setCurrentPage(value);
 
@@ -57,7 +58,6 @@ function AllNews() {
   const handleOnDelete = () => {
     setOpenDelete(false);
     dispatch(deletePost(deleteId));
-    // axiosAuth(URL_DELETE_NEWS,deleteId);
   }
 
   const onConfirm = (value) => {
