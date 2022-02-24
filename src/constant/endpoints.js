@@ -1,0 +1,11 @@
+export const URL_LOGIN = 'https://neemuch-news.herokuapp.com/v1/api/auth/admin/signin'
+export const URL_CREATE_NEWS = 'https://neemuch-news.herokuapp.com/v1/newsMaster/insertNews'
+export const URL_FETCH_NEWS = 'https://neemuch-news.herokuapp.com/v1/newsMaster/getAllNews'
+export const URL_DELETE_NEWS = 'https://neemuch-news.herokuapp.com/v1/newsMaster'
+export const URL_UPDATE_NEWS = 'https://neemuch-news.herokuapp.com/v1/newsMaster/updateNews'
+export const URL_SUGGESTION_FETCH = 'https://neemuch-news.herokuapp.com/v1/suggestions/getAll'
+export const URL_INVENTORY_FETCH_ALL= 'https://neemuch-news.herokuapp.com/v1/businessInfo/getAll'
+export const URL_DELETE_INVENTORY='https://neemuch-news.herokuapp.com/v1/businessInfo/delete'
+export const URL_BUSINESS_CATEGORY_FETCH='https://neemuch-news.herokuapp.com/v1/businessCategory/getAll'
+export const URL_UPDATE_INVENTORY='https://neemuch-news.herokuapp.com/v1/businessInfo/update';
+export const URL_CREATE_INVENTORY='https://neemuch-news.herokuapp.com/v1/businessInfo/create';

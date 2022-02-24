@@ -1,0 +1,13 @@
+export const CREATE='CREATE';
+export const FETCH_ALL='FETCH_ALL';
+export const UPDATE='UPDATE';
+export const DELETE='DELETE';
+export const FETCH_ALL_INVENTORY = 'FETCH_ALL_INVENTORY';
+export const CREDS_ERROR='WRONG CREDENTIALS!!';
+export const SEVERITY_ERROR='error';
+export const SEVERITY_WARNING='warning';
+export const SEVERITY_SUCCESS='success';
+export const MODULE_DASHBOARD='dashboard';
+export const MODULE_CREATE_NEWS='createnews';
+export const MODULE_ALL_NEWS='allnews';
+export const MODULE_INVENTORY='inventory';
