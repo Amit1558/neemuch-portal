@@ -45,7 +45,7 @@ function Login() {
         <div className="icon-container">
           <img src={newsIcon} className="icon"></img>
         </div>
-        <h1 className="title">Neemuch news</h1>
+        <h1 className="title">Neemuch News</h1>
         <h3 className="login-title">Log in to Neemuch News</h3>
         <div className="login-form">
           <form className="form" >
