@@ -12,7 +12,7 @@ function Login() {
   const [message, setMessage] = useState('')
 
   async function handleLoginClick(details) {
-   await axios.post(URL_LOGIN, details).then((response) => {
+    await axios.post(URL_LOGIN, details).then((response) => {
       localStorage.setItem("admin", response.data);
       localStorage.setItem("access-token", response.data.data.accessToken);
       console.log(response.data.data.accessToken);
@@ -42,46 +42,48 @@ function Login() {
   return (
     <div className="login">
       <div className="container">
-        <div className="icon-container">
-          <img src={newsIcon} className="icon"></img>
-        </div>
-        <h1 className="title">News Zone</h1>
-        <h3 className="login-title">Log in to News Zone</h3>
-        <div className="login-form">
-          <form className="form" >
-            <div className="email-container">
-              <input
-                type="email"
-                name="username"
-                className="email"
-                placeholder="Username"
-                onChange={(e) => { setDetails({ ...details, username: e.target.value }) }}
-                value={details.username}
-              ></input>
-            </div>
-            <div className="password-container">
-              <input type="password"
-                name="password"
-                className="password"
-                placeholder="Password"
-                onChange={(e) => { setDetails({ ...details, password: e.target.value }) }}
-                value={details.password}
-              ></input>
-            </div>
-          </form>
-        </div>
-        <div className="button-container">
-          <button
-            className="button"
-            type="submit"
-            onClick={() => {
-              handleLoginClick(details);
-            }}>
-            Log in
-          </button>
-        </div>
-        <div className="login__authentication">
-          <h5>{message}</h5>
+        <div className="container__items">
+          <div className="icon-container">
+            <img src={newsIcon} className="icon"></img>
+          </div>
+          <h1 className="title">News Zone</h1>
+          <h3 className="login-title">Login</h3>
+          <div className="login-form">
+            <form className="form" >
+              <div className="email-container">
+                <input
+                  type="email"
+                  // name="username"
+                  className="email"
+                  placeholder="Username"
+                  onChange={(e) => { setDetails({ ...details, username: e.target.value }) }}
+                  value={details.username}
+                ></input>
+              </div>
+              <div className="password-container">
+                <input type="password"
+                  name="password"
+                  className="password"
+                  placeholder="Password"
+                  onChange={(e) => { setDetails({ ...details, password: e.target.value }) }}
+                  value={details.password}
+                ></input>
+              </div>
+            </form>
+          </div>
+          <div className="button-container">
+            <button
+              className="button"
+              type="submit"
+              onClick={() => {
+                handleLoginClick(details);
+              }}>
+              Log in
+            </button>
+          </div>
+          <div className="login__authentication">
+            <h5>{message}</h5>
+          </div>
         </div>
       </div>
     </div>
