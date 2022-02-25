@@ -54,6 +54,7 @@
 .delete__icon__div{
   color:rgb(206, 60, 3);
   margin-left: 30px;
+  border: 2px solid  rgb(206, 60, 3);
 }
 
 .update__icon__div:hover{
@@ -139,7 +140,7 @@
   display: flex;
   height: 75px;
   width:98%;
-  border:2px solid #e8eaec;
+  /* border:2px solid #e8eaec; */
   border-radius: 4px;
 }
 
