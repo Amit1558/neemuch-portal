@@ -55,7 +55,7 @@ export const deletePost= (id) => async (dispatch) =>{
 
 export const deleteInventoryById= (id) => async (dispatch) =>{
   try {
-
+    console.log(id);
   await api.deleteInvenById(id);
   dispatch({ type:DELETE, payload: id });
 

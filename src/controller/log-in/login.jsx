@@ -53,7 +53,7 @@ function Login() {
               <div className="email-container">
                 <input
                   type="email"
-                  // name="username"
+                  name="username"
                   className="email"
                   placeholder="Username"
                   onChange={(e) => { setDetails({ ...details, username: e.target.value }) }}

@@ -20,7 +20,6 @@ function Paginate({ postPerPage, totalPosts, page }) {
     const classes = useStyles();
 
     const checkPostCapacity = () => {
-        console.log(totalPosts, postPerPage);
         return (postPerPage < totalPosts) ? true : false;
     };
     return (

@@ -34,7 +34,7 @@ function AllNews() {
   const [post, setPost] = useState([]);
   const fetchedValue = useSelector(state => state.postReducer);
   const [mappedValue, setMappedValue] = useState({});
-  const [postPerPage, setPostPerPage] = useState(10);
+  const [postPerPage, setPostPerPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
@@ -47,8 +47,11 @@ function AllNews() {
       });
   }, [])
 
-  const page = (value) => setCurrentPage(value);
-
+  const page = (value) => { 
+    console.log(value) 
+    setCurrentPage(value)
+    console.log(currentPage)
+  };
   const openCreateNews = () => {
     history.push({
       pathname: '/neemuchnews/createnews',

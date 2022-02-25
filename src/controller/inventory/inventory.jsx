@@ -20,10 +20,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import { deleteInventoryById, fetchInventory, fetch } from '../../actions/posts.js'
-import { inventoryFetchAll } from '../../api/api-call.js';
-import { URL_INVENTORY_FETCH_ALL } from '../../constant/endpoints';
-import axios from 'axios';
+import { deleteInvenById, feedBack, inventoryFetchAll } from '../../api/api-call.js';
 import Paginate from '../pagination/pagination.jsx';
 
 function Inventory() {
@@ -33,18 +30,22 @@ function Inventory() {
   const [deleteId, setDeleteId] = useState();
   const [mappedValue, setMappedValue] = useState({});
   const [post, setPost] = useState([]);
-  const dispatch = useDispatch();
-  const [postPerPage, setPostPerPage] = useState(10);
+  const [postPerPage, setPostPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const result = post.slice(indexOfFirstPost, indexOfLastPost);
-
-  const page = (value) => setCurrentPage(value);
+  const [result, setResult] = useState([]);
 
   const handleOnDelete = () => {
     setOpenDelete(false);
-    dispatch(deleteInventoryById(deleteId));
+    deleteInvenById(deleteId).then(
+      inventoryFetchAll().then((response) => {
+        const res = response.data.data.content
+        setResult(
+          res.filter(post => {
+            return post.businessId !== deleteId;
+          }))
+      }));
   }
 
   useEffect(() => {
@@ -52,6 +53,14 @@ function Inventory() {
       setPost(response.data.data.content);
     });
   }, [])
+
+    const page = (value) => { 
+      setCurrentPage(value)
+    };
+
+  useEffect(() => {
+    setResult(post.slice(indexOfFirstPost, indexOfLastPost));
+  }, [post,indexOfFirstPost,indexOfLastPost])
 
   const onConfirm = (value) => {
     setOpenDelete(true);
@@ -68,12 +77,6 @@ function Inventory() {
   const handleClose = () => {
     setOpenDelete(false);
   }
-
-  const checkPostCapacity = () => {
-    console.log(post.length, postPerPage)
-    console.log((post.length < postPerPage) ? false : true);
-    return (postPerPage < post.length) ? true : false;
-  };
 
   return (
     <div className="all__container" id="inventorycontainer"  >
