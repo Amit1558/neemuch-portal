@@ -30,7 +30,7 @@ function Inventory() {
   const [deleteId, setDeleteId] = useState();
   const [mappedValue, setMappedValue] = useState({});
   const [post, setPost] = useState([]);
-  const [postPerPage, setPostPerPage] = useState(3);
+  const [postPerPage, setPostPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
