@@ -55,6 +55,12 @@ function Inventory() {
     });
   },[])
 
+  const setData = () => {
+    inventoryFetchAll().then((response) => {
+      setPost(response.data.data.content);
+    });
+  };
+
     const page = (value) => { 
       setCurrentPage(value)
     };
@@ -86,7 +92,7 @@ function Inventory() {
         <Grid item xs={12}>
           <Card variant="outlined" style={{ height: "145vh", borderRadius: "8px", overflowX: "hidden" }} >
             <div className="all__news__popup close">
-              <InventoryPopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} />
+              <InventoryPopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} setData={setData}/>
               <InventoryCreatePopUp openPopUp={openCreatePopUp} setCreatePopUp={setCreatePopUp} />
               <Dialog
                 open={openDelete}
@@ -111,14 +117,14 @@ function Inventory() {
             </div>
             <div className="all__news__container">
               <div className="all__news__title">
-                <h2>Contacts</h2>
+                <h2>Services</h2>
               </div>
             </div>
             <div class="all__news__search">
               <div className="search__bar">
                 <input
                   variant="outlined"
-                  placeholder="Search Contacts..."
+                  placeholder="Search Services..."
                   name="search-news"
                   style={{
                     width: "100%",

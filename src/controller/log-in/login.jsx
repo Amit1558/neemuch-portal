@@ -22,15 +22,6 @@ function Login() {
       history.push({
         pathname: '/neemuchnews/createnews',
       })
-      axios.interceptors.request.use(
-        config => {
-          config.headers.authorization = `Bearer ${response.data.data.accessToken}`;
-          return config;
-        },
-        error => {
-          return Promise.reject(error);
-        }
-      )
     })
       .catch(err => {
         if (err) {
@@ -45,11 +36,6 @@ function Login() {
   return (
     <div className="login">
       <div className="container">
-        {/* <div className="progress">
-          <Container component={Box} py={3}>
-            <LinearProgress  size="wide"/>
-          </Container>
-        </div> */}
         <div className="container__items">
           <div className="icon-container">
             <img src={newsIcon} className="icon"></img>

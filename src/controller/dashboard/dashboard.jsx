@@ -47,7 +47,7 @@ function Dashboard() {
         <Grid item xs={12}>
           <Card variant="outlined" style={{ height: "145vh", borderRadius: "8px", overflow: "hidden" }}>
             {
-              !res ?
+              (post.length === 0 ) ?
                 <div className="circular__progress">
                   <CircularProgress />
                 </div> :

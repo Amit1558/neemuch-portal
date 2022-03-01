@@ -1,17 +1,28 @@
 import axios from 'axios';
-import { URL_FETCH_NEWS, URL_DELETE_NEWS, URL_INVENTORY_FETCH_ALL, URL_DELETE_INVENTORY } from '../constant/endpoints.js'
-import   axiosAuth   from '../authentication/jwtauthentication.js';
+import { URL_FETCH_NEWS, URL_DELETE_NEWS, URL_INVENTORY_FETCH_ALL, URL_DELETE_INVENTORY, URL_UPDATE_INVENTORY } from '../constant/endpoints.js'
 
 const url = "https://neemuch-news.herokuapp.com";
+const API = axios.create({ baseURL: 'https://neemuch-news.herokuapp.com' });
 
-export const feedBack = () => axios.get(`${URL_FETCH_NEWS}`);
+API.interceptors.request.use((req) => {
+    console.log(localStorage.getItem('access-token'));
+    if (localStorage.getItem('access-token')) {
+        req.headers.authorization = `Bearer ${localStorage.getItem('access-token')}`;
+    }
 
-export const createPost = (post) => axios.post(`${url}/v1/api/auth/admin/signin`, post);
+    return req;
+});
 
-export const updatePost = (id, post) => axios.put(`${url}/${id}`, post)
+export const feedBack = () => API.get(`${URL_FETCH_NEWS}`);
 
-export const deletePost = (id) => axios.delete(`${URL_DELETE_NEWS}/${id}`);
+export const createPost = (post) => API.post(`${url}/v1/api/auth/admin/signin`, post);
 
-export const deleteInvenById = (id) => axios.delete(`${URL_DELETE_INVENTORY}/${id}`);
+export const updatePost = (post) => API.put(`${url}/v1/newsMaster/updateNews`, post)
 
-export const inventoryFetchAll = () => axios.get(`${URL_INVENTORY_FETCH_ALL}`);
+export const deletePost = (id) => API.delete(`${URL_DELETE_NEWS}/${id}`);
+
+export const deleteInvenById = (id) => API.delete(`${URL_DELETE_INVENTORY}/${id}`);
+
+export const inventoryFetchAll = () => API.get(`${URL_INVENTORY_FETCH_ALL}`);
+
+export const updateInventory = (post) => API.put(`${URL_UPDATE_INVENTORY}`,post);
