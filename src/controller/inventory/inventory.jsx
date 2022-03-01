@@ -93,7 +93,7 @@ function Inventory() {
           <Card variant="outlined" style={{ height: "145vh", borderRadius: "8px", overflowX: "hidden" }} >
             <div className="all__news__popup close">
               <InventoryPopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} setData={setData}/>
-              <InventoryCreatePopUp openPopUp={openCreatePopUp} setCreatePopUp={setCreatePopUp} />
+              <InventoryCreatePopUp openPopUp={openCreatePopUp} setCreatePopUp={setCreatePopUp} setData={setData} />
               <Dialog
                 open={openDelete}
                 onClose={handleClose}

@@ -7,7 +7,6 @@ import { CircularProgress } from '@material-ui/core'
 import { Dialog, DialogContent } from '@material-ui/core';
 import { URL_BUSINESS_CATEGORY_FETCH } from '../../../constant/endpoints.js';
 import axios from 'axios';
-import { URL_UPDATE_INVENTORY } from '../../../constant/endpoints.js';
 import { updateInventory } from '../../../api/api-call.js';
 
 

@@ -8,9 +8,10 @@ import { Dialog, DialogContent } from '@material-ui/core';
 import { URL_BUSINESS_CATEGORY_FETCH } from '../../../constant/endpoints.js';
 import axios from 'axios';
 import { URL_CREATE_INVENTORY } from '../../../constant/endpoints.js';
+import { createInventory } from '../../../api/api-call.js';
 
 
-const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp }) => {
+const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
   const [formData, setFormData] = useState({
     businessName: "",
     businessMsisdn: "",
@@ -30,6 +31,7 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp }) => {
 
   const [suggestionName, setSuggestionName] = useState([]);
   const [suggestionResponse, setSuggestionResponse] = useState({});
+  const [loader, setLoader] = useState(false);
   const [suggestionData, setSuggestionData] = useState([{
     id: "",
     suggestionName: ""
@@ -46,8 +48,14 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp }) => {
     data.append("businessRequest", newsRequest);
     console.log(formData);
     console.log(file);
-    await axios.post(URL_CREATE_INVENTORY, data)
-      .catch((err) => {
+    setLoader(true);
+    createInventory(data).then((response)=>{
+      if(response){
+        setData();
+        closePopUp();
+        setLoader(false);
+      }
+    }).catch((err) => {
         console.log(err);
       })
   }
@@ -243,7 +251,8 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp }) => {
                         <button
                           className="update__button"
                           type="submit">
-                          Create
+                          {loader && <CircularProgress size={25} color="secondary" />}
+                          {!loader && 'Create'}
                         </button>
                       </div>
                     </div>
