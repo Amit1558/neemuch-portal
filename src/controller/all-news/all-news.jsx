@@ -20,11 +20,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import { deletePost, fetch } from '../../actions/posts.js'
+import {  fetch } from '../../actions/posts.js'
 import axiosAuth from '../../authentication/jwtauthentication.js';
 import { URL_DELETE_NEWS } from '../../constant/endpoints.js';
 import Paginate from '../pagination/pagination.jsx';
-import { feedBack } from '../../api/api-call.js';
+import { feedBack, deletePost } from '../../api/api-call.js';
 
 function AllNews() {
   const history = useHistory();
@@ -34,20 +34,24 @@ function AllNews() {
   const [post, setPost] = useState([]);
   const fetchedValue = useSelector(state => state.postReducer);
   const [mappedValue, setMappedValue] = useState({});
-  const [postPerPage, setPostPerPage] = useState(1);
+  const [postPerPage, setPostPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const res = post.slice(indexOfFirstPost, indexOfLastPost);
-  const dispatch = useDispatch();
+  const [res, setRes] = useState([]);
 
   useEffect(() => {
+      console.log(post);
       feedBack().then((response) => {
         setPost(response.data.data);
       });
   }, [])
 
-  const page = (value) => { 
+  useEffect(() => {
+    setRes(post.slice(indexOfFirstPost, indexOfLastPost));
+  }, [post,indexOfFirstPost,indexOfLastPost])
+
+  const page = (value) => {
     console.log(value) 
     setCurrentPage(value)
     console.log(currentPage)
@@ -60,7 +64,16 @@ function AllNews() {
 
   const handleOnDelete = () => {
     setOpenDelete(false);
-    dispatch(deletePost(deleteId));
+    deletePost(deleteId).then((status)=>{
+      console.log(status);
+      feedBack().then((response) => {
+        const res = response.data.data
+        setRes(
+          res.filter(post => {
+            return post.newsId !== deleteId;
+          }))
+      })
+    }).catch((error)=>{console.log(error);})
   }
 
   const onConfirm = (value) => {
@@ -144,7 +157,7 @@ function AllNews() {
               </div>
             </div>
             {
-              !res ?
+              (post.length === 0) ?
                 <div className="circular__progress">
                   <CircularProgress />
                 </div> :

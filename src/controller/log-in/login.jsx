@@ -5,6 +5,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import { URL_LOGIN, URL_DELETE_NEWS } from '../../constant/endpoints.js';
 import { CREDS_ERROR } from '../../constant/constants.js';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { Box, Container } from '@material-ui/core';
 
 function Login() {
   const history = useHistory();
@@ -42,6 +45,11 @@ function Login() {
   return (
     <div className="login">
       <div className="container">
+        {/* <div className="progress">
+          <Container component={Box} py={3}>
+            <LinearProgress  size="wide"/>
+          </Container>
+        </div> */}
         <div className="container__items">
           <div className="icon-container">
             <img src={newsIcon} className="icon"></img>

@@ -96,7 +96,7 @@ const [formData, setFormData] = useState({
 
                   <div className="popup__form__div">
                     <div className="popup__update__div">
-                      <h2>Create Contacts</h2>
+                      <h2>Create Services</h2>
                     </div>
 
                     <div className="hindi__news" id="hindi">

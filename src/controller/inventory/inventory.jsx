@@ -45,14 +45,15 @@ function Inventory() {
           res.filter(post => {
             return post.businessId !== deleteId;
           }))
-      }));
+      })).catch((error)=>{console.log(error);
+      });
   }
 
   useEffect(() => {
     inventoryFetchAll().then((response) => {
       setPost(response.data.data.content);
     });
-  }, [])
+  },[])
 
     const page = (value) => { 
       setCurrentPage(value)
@@ -140,13 +141,13 @@ function Inventory() {
                     <AddIcon fontSize="medium" />
                   </div>
                   <div className="add__news__title" >
-                    <h3>Add&nbsp;Contact</h3>
+                    <h3>Add&nbsp;Services</h3>
                   </div>
                 </div>
               </div>
             </div>
             {
-              !result ?
+              (post.length === 0) ?
                 <div className="circular__progress">
                   <CircularProgress />
                 </div> :

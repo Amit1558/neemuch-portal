@@ -82,6 +82,13 @@
  background-color: white;
  } 
 
+ .progress{
+  display: flex;
+  /* justify-content: center;
+  align-items: center; */
+  border: 1px solid black;
+ }
+
  .email-container,.password-container{
    background-color: white;
    display: flex;
