@@ -6,28 +6,32 @@ import axios from 'axios';
 import { URL_LOGIN, URL_DELETE_NEWS } from '../../constant/endpoints.js';
 import { CREDS_ERROR } from '../../constant/constants.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { Box, Container } from '@material-ui/core';
 
 function Login() {
   const history = useHistory();
   const [details, setDetails] = useState({ username: "", password: "" });
   const [message, setMessage] = useState('')
+  const [loader, setLoader] = useState(false);
 
   async function handleLoginClick(details) {
+    setLoader(true);
     await axios.post(URL_LOGIN, details).then((response) => {
-      localStorage.setItem("admin", response.data);
-      localStorage.setItem("access-token", response.data.data.accessToken);
-      console.log(response.data.data.accessToken);
-      history.push({
-        pathname: '/neemuchnews/createnews',
-      })
+      if (response) {
+        setLoader(false);
+        localStorage.setItem("admin", response.data);
+        localStorage.setItem("access-token", response.data.data.accessToken);
+        console.log(response.data.data.accessToken);
+        history.push({
+          pathname: '/neemuchnews/createnews',
+        })
+      }
     })
       .catch(err => {
         if (err) {
+          setLoader(false);
           setMessage(CREDS_ERROR);
           setInterval(function setTime() {
-            setMessage('');
+          setMessage('');
           }, 2000)
         }
       });
@@ -36,6 +40,9 @@ function Login() {
   return (
     <div className="login">
       <div className="container">
+        <div className="loader">
+          {loader && <CircularProgress/>}
+        </div>
         <div className="container__items">
           <div className="icon-container">
             <img src={newsIcon} className="icon"></img>

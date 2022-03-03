@@ -61,8 +61,11 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
   }
 
   function mappedId(value) {
+    console.log(value);
+    // console.log(suggestionData);
     for (var i = 0; i <= value; i++) {
       if (i == value) {
+        console.log(suggestionData[0].id[i]);
         return suggestionData[0].id[i];
       }
     }
@@ -72,17 +75,22 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
   useEffect(() => {
     if (suggestionResponse.response) {
       const data = suggestionResponse.response.data.data;
-      setSuggestionData([{
-        id: data.map((data) => (data.businessCategoryId)),
-        suggestionsName: data.map((data) => (data.businessCategoryName))
-      }]);
+      setSuggestionData(data);
+      console.log(suggestionData);
+      // setSuggestionData([{
+      //   id: data.map((data) => (data.businessCategoryId)),
+      //   suggestionsName: data.map((data) => (data.businessCategoryName))
+      // }]);
+
       setSuggestionName(data.map((data) => (data.businessCategoryName)))
     }
   }, [suggestionResponse]);
 
   async function onClickSuggestion() {
     await axios.get(URL_BUSINESS_CATEGORY_FETCH).then((response) => {
-      setSuggestionResponse({ response });
+      setSuggestionResponse({response});
+      setSuggestionData(suggestionResponse.response.data.data);
+      // setSuggestionData(response.data);
     }).catch((err) => {
       console.log(err);
     })

@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
     ul: {
-        "& .MuiPaginationItem-root": {
+        "& .MuiLinearProgress-root": {
             color: "#4BCAEE",
             fontSize: "16px",
             fontFamily: 'Nunito'

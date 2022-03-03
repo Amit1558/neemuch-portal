@@ -31,7 +31,7 @@ function AllNews() {
   const [post, setPost] = useState([]);
   const fetchedValue = useSelector(state => state.postReducer);
   const [mappedValue, setMappedValue] = useState({});
-  const [postPerPage, setPostPerPage] = useState(10);
+  const [postPerPage, setPostPerPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;

@@ -120,7 +120,7 @@ const InventoryPopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) =
 
                 <div className="popup__form__div">
                   <div className="popup__update__div">
-                    <h2>Update Contacts</h2>
+                    <h2>Update Services</h2>
                   </div>
 
                   <div className="hindi__news" id="hindi">
