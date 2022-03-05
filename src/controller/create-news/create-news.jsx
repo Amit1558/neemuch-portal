@@ -10,7 +10,8 @@ import Card from '@material-ui/core/Card';
 import axios from 'axios';
 import './create-news.css';
 import MuiAlert from '@material-ui/lab/Alert';
-
+import Footer from '../footer/footer.jsx';
+import { createNews } from '../../api/api-call.js';
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -105,16 +106,17 @@ function CreateNews() {
       data.append("newsRequest", newsRequest);
       console.log(formData);
       console.log(err);
-      const response = await axios.post(URL_CREATE_NEWS, data)
+      createNews(data).then((response) => {
+        if (response) {
+          setSnackBar(true);
+          setSnackBarInfo({ message: "NewsCreated Successfully", severity: SEVERITY_SUCCESS });
+        }
+      })
         .catch((err) => {
           setSnackBar(true);
           setSnackBarInfo({ message: "Error while creating news", severity: SEVERITY_ERROR });
           console.log(err);
         })
-      if (response) {
-        setSnackBar(true);
-        setSnackBarInfo({ message: "NewsCreated Successfully", severity: SEVERITY_SUCCESS });
-      }
     }
   }
 
@@ -471,6 +473,9 @@ function CreateNews() {
           </Grid>
         </Grid>
       </form>
+      <div className='footer'>
+        <Footer />
+      </div>
     </div>
   )
 }

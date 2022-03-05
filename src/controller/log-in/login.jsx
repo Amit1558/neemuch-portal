@@ -7,7 +7,7 @@ import { URL_LOGIN, URL_DELETE_NEWS } from '../../constant/endpoints.js';
 import { CREDS_ERROR } from '../../constant/constants.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { LinearProgress } from '@material-ui/core';
-
+import Footer from '../footer/footer.jsx';
 function Login() {
   const history = useHistory();
   const [details, setDetails] = useState({ username: "", password: "" });
@@ -33,61 +33,66 @@ function Login() {
           setLoader(false);
           setMessage(CREDS_ERROR);
           setInterval(function setTime() {
-          setMessage('');
+            setMessage('');
           }, 2000)
         }
       });
   }
 
   return (
-    <div className="login">
-      <div className="container">
-        <div className="loader">
-          {loader && <LinearProgress/>}
+    <div className='login__conatiner'>
+      <div className="login">
+        <div className="container">
+          <div className="loader">
+            {loader && <LinearProgress />}
+          </div>
+          <div className="container__items">
+            <div className="icon-container">
+              <img src={newsIcon} className="icon"></img>
+            </div>
+            <h1 className="title">News Zone</h1>
+            <h3 className="login-title">Login</h3>
+            <div className="login-form">
+              <form className="form" >
+                <div className="email-container">
+                  <input
+                    type="email"
+                    name="username"
+                    className="email"
+                    placeholder="Username"
+                    onChange={(e) => { setDetails({ ...details, username: e.target.value }) }}
+                    value={details.username}
+                  ></input>
+                </div>
+                <div className="password-container">
+                  <input type="password"
+                    name="password"
+                    className="password"
+                    placeholder="Password"
+                    onChange={(e) => { setDetails({ ...details, password: e.target.value }) }}
+                    value={details.password}
+                  ></input>
+                </div>
+              </form>
+            </div>
+            <div className="button-container">
+              <button
+                className="button"
+                type="submit"
+                onClick={() => {
+                  handleLoginClick(details);
+                }}>
+                Log in
+              </button>
+            </div>
+            <div className="login__authentication">
+              <h5>{message}</h5>
+            </div>
+          </div>
         </div>
-        <div className="container__items">
-          <div className="icon-container">
-            <img src={newsIcon} className="icon"></img>
-          </div>
-          <h1 className="title">News Zone</h1>
-          <h3 className="login-title">Login</h3>
-          <div className="login-form">
-            <form className="form" >
-              <div className="email-container">
-                <input
-                  type="email"
-                  name="username"
-                  className="email"
-                  placeholder="Username"
-                  onChange={(e) => { setDetails({ ...details, username: e.target.value }) }}
-                  value={details.username}
-                ></input>
-              </div>
-              <div className="password-container">
-                <input type="password"
-                  name="password"
-                  className="password"
-                  placeholder="Password"
-                  onChange={(e) => { setDetails({ ...details, password: e.target.value }) }}
-                  value={details.password}
-                ></input>
-              </div>
-            </form>
-          </div>
-          <div className="button-container">
-            <button
-              className="button"
-              type="submit"
-              onClick={() => {
-                handleLoginClick(details);
-              }}>
-              Log in
-            </button>
-          </div>
-          <div className="login__authentication">
-            <h5>{message}</h5>
-          </div>
-        </div>
+      </div>
+      <div className='footer'>
+        <Footer />
       </div>
     </div>
   );

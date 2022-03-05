@@ -16,9 +16,6 @@
 
 .loader {
     height: 2%;
-    /* display: flex;
-    flex-direction: column;
-    align-items: center; */
 }
 
 .login__authentication {
@@ -44,7 +41,6 @@
     display: flex;
     justify-content: center;
     background-color: white;
-    /* color: 	rgb(109, 109, 109); */
     color: rgb(3, 176, 219);
     margin-top: 5px;
 }
@@ -140,4 +136,8 @@
     border-radius: 8px;
     text-align: center;
     background-color: white;
+}
+
+.footer{
+    height: 180px;
 }

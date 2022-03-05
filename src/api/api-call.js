@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URL_FETCH_NEWS, URL_DELETE_NEWS, URL_INVENTORY_FETCH_ALL, URL_DELETE_INVENTORY, URL_UPDATE_INVENTORY, URL_CREATE_INVENTORY } from '../constant/endpoints.js'
+import { URL_FETCH_NEWS, URL_DELETE_NEWS, URL_CREATE_NEWS, URL_INVENTORY_FETCH_ALL, URL_DELETE_INVENTORY, URL_UPDATE_INVENTORY, URL_CREATE_INVENTORY } from '../constant/endpoints.js'
 
 const url = "https://neemuch-news.herokuapp.com";
 const API = axios.create({ baseURL: 'https://neemuch-news.herokuapp.com' });
@@ -15,6 +15,8 @@ API.interceptors.request.use((req) => {
 export const feedBack = () => API.get(`${URL_FETCH_NEWS}`);
 
 export const createPost = (post) => API.post(`${url}/v1/api/auth/admin/signin`, post);
+
+export const createNews = (post) => API.post(URL_CREATE_NEWS, post);
 
 export const updatePost = (post) => API.put(`${url}/v1/newsMaster/updateNews`, post)
 
