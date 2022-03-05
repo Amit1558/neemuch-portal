@@ -6,6 +6,7 @@ import axios from 'axios';
 import { URL_LOGIN, URL_DELETE_NEWS } from '../../constant/endpoints.js';
 import { CREDS_ERROR } from '../../constant/constants.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { LinearProgress } from '@material-ui/core';
 
 function Login() {
   const history = useHistory();
@@ -21,6 +22,7 @@ function Login() {
         localStorage.setItem("admin", response.data);
         localStorage.setItem("access-token", response.data.data.accessToken);
         console.log(response.data.data.accessToken);
+        // Auth.isAuthenticated();
         history.push({
           pathname: '/neemuchnews/createnews',
         })
@@ -41,7 +43,7 @@ function Login() {
     <div className="login">
       <div className="container">
         <div className="loader">
-          {loader && <CircularProgress/>}
+          {loader && <LinearProgress/>}
         </div>
         <div className="container__items">
           <div className="icon-container">

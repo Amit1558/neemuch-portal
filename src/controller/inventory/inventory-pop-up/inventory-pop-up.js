@@ -77,13 +77,14 @@ const InventoryPopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) =
   }
 
   function mappedId(value) {
+    const arr = suggestionData.map((data)=>{ return data.businessCategoryId});
     for (var i = 0; i <= value; i++) {
-      if (i == value) {
-        return suggestionData[0].id[i];
+      if (arr[i] == value) {
+        return suggestionData[i].businessCategoryId;
       }
     }
     return value;
-  }
+  } 
 
   useEffect(() => {
     if (suggestionResponse.response) {

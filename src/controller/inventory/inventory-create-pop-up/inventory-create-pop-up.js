@@ -61,12 +61,10 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
   }
 
   function mappedId(value) {
-    console.log(value);
-    // console.log(suggestionData);
+    const arr = suggestionData.map((data)=>{ return data.businessCategoryId});
     for (var i = 0; i <= value; i++) {
-      if (i == value) {
-        console.log(suggestionData[0].id[i]);
-        return suggestionData[0].id[i];
+      if (arr[i] == value) {
+        return suggestionData[i].businessCategoryId;
       }
     }
     return value;

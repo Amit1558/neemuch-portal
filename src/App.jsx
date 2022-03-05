@@ -7,16 +7,17 @@ import { useState } from 'react';
 import './App.css'
 import { Route, Redirect, Switch, BrowserRouter as Router } from 'react-router-dom';
 import ProtectedRoute from './protected-routes/protectedroutes.jsx';
+import Auth from './authentication/auth.jsx';
+
 function App() {
-const [isAuth, setIsAuth] = useState(localStorage.getItem('admin'));
   return (
     <Router>
-      <ProtectedRoute isAuth={isAuth} path="/neemuchnews/createnews" exact component={CreateNews} />
-      <ProtectedRoute isAuth={isAuth} path="/neemuchnews/allnews" exact component={AllNews} />
-      <ProtectedRoute isAuth={isAuth} path="/neemuchnews/dashboard" exact component={Dashboard} />
-      <ProtectedRoute isAuth={isAuth} path="/neemuchnews/inventory" exact component={Inventory} />
+      <ProtectedRoute  path="/neemuchnews/createnews" exact component={CreateNews} />
+      <ProtectedRoute  path="/neemuchnews/allnews" exact component={AllNews} />
+      <ProtectedRoute  path="/neemuchnews/dashboard" exact component={Dashboard} />
+      <ProtectedRoute  path="/neemuchnews/inventory" exact component={Inventory} />
       <Route path="/" exact component={Login} />
-    </Router>
+    </Router> 
   )
 }
 

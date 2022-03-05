@@ -1,11 +1,13 @@
 import React from 'react';
-import { Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
+import Auth from '../authentication/auth.jsx';
 
 
-function ProtectedRoute({isAuth, component: Component, ...rest}) {
+function ProtectedRoute({isAuth,isAuthenticate, component: Component, ...rest}) {
+
   return (
     <Route {...rest} render={() => {
-      if (isAuth) {
+      if (Auth.isAuthenticated()) {
         return <Component />;
       } else {
         return <Redirect to="/" />;

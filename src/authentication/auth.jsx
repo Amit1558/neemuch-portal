@@ -11,7 +11,11 @@ class Auth {
   }
 
   isAuthenticated() {
-    return this.authenticated;
+    if(localStorage.getItem("access-token"))
+       {
+         this.authenticated = true;
+       }
+      return this.authenticated;
   }
 
 }
