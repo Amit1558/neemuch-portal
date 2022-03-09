@@ -8,7 +8,8 @@ import { Dialog, DialogContent } from '@material-ui/core';
 import { URL_BUSINESS_CATEGORY_FETCH } from '../../../constant/endpoints.js';
 import axios from 'axios';
 import { URL_CREATE_INVENTORY } from '../../../constant/endpoints.js';
-import { createInventory } from '../../../api/api-call.js';
+import { createInventory, fetchService } from '../../../api/api-call.js';
+import MenuProps from '../../../icons/MenuProps.js';
 
 
 const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
@@ -37,7 +38,7 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
     suggestionName: ""
   }]);
 
-  async function handleUpdate(e) {
+   function handleUpdate(e) {
     e.preventDefault();
     const input = document.getElementById("inpFile");
     const data = new FormData();
@@ -71,28 +72,20 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
   }
 
   useEffect(() => {
-    if (suggestionResponse.response) {
-      const data = suggestionResponse.response.data.data;
-      setSuggestionData(data);
-      console.log(suggestionData);
-      // setSuggestionData([{
-      //   id: data.map((data) => (data.businessCategoryId)),
-      //   suggestionsName: data.map((data) => (data.businessCategoryName))
-      // }]);
-
-      setSuggestionName(data.map((data) => (data.businessCategoryName)))
-    }
-  }, [suggestionResponse]);
-
-  async function onClickSuggestion() {
-    await axios.get(URL_BUSINESS_CATEGORY_FETCH).then((response) => {
-      setSuggestionResponse({response});
-      setSuggestionData(suggestionResponse.response.data.data);
-      // setSuggestionData(response.data);
+    fetchService().then((response) => {
+      if (response) {
+        const data = response.data.data;
+        setSuggestionData([{
+          id: data.map((data) => (data.businessCategoryId)),
+          suggestionsName: data.map((data) => (data.businessCategoryName))
+        }]);
+        setSuggestionName(data.map((data) => (data.businessCategoryName)))
+      }
     }).catch((err) => {
       console.log(err);
     })
-  }
+  }, []);
+
 
   return (
     <Dialog open={openPopUp}>
@@ -167,7 +160,7 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
                         label="Bussiness Category"
                         name="businessCategoryId"
                         value={formData.businessCategoryId}
-                        onClick={() => { onClickSuggestion() }}
+                        MenuProps={MenuProps}
                         onChange={(e) => { setFormData({ ...formData, businessCategoryId: mappedId(e.target.value) }) }}>
                         {
                           suggestionName.map((suggestionName, id) =>

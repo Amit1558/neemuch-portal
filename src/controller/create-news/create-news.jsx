@@ -7,11 +7,10 @@ import { URL_CREATE_NEWS, URL_SUGGESTION_FETCH } from '../../constant/endpoints.
 import { SEVERITY_WARNING, SEVERITY_ERROR, SEVERITY_SUCCESS, MODULE_CREATE_NEWS } from '../../constant/constants.js'
 import Snackbar from '@material-ui/core/Snackbar';
 import Card from '@material-ui/core/Card';
-import axios from 'axios';
 import './create-news.css';
 import MuiAlert from '@material-ui/lab/Alert';
-import Footer from '../footer/footer.jsx';
-import { createNews } from '../../api/api-call.js';
+import { createNews, fetchSuggestion } from '../../api/api-call.js';
+import MenuProps from '../../icons/MenuProps.js';
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -28,7 +27,6 @@ function CreateNews() {
   const [file, setFile] = useState();
   const [language, setLanguage] = useState(3);
   const [suggestionName, setSuggestionName] = useState([]);
-  const [suggestionResponse, setSuggestionResponse] = useState({});
   const [suggestionData, setSuggestionData] = useState([{
     id: "",
     suggestionName: ""
@@ -88,11 +86,10 @@ function CreateNews() {
       setSnackBarInfo({ message: "Hindi headlines field cannot be blank!", severity: SEVERITY_WARNING })
       isError = true;
     }
-
     return isError;
   }
 
-  async function handleSubmit(event) {
+   function handleSubmit(event) {
     event.preventDefault();
     const err = validate();
 
@@ -129,26 +126,26 @@ function CreateNews() {
     return value;
   }
 
-  async function onClickSuggestion() {
-    await axios.get(URL_SUGGESTION_FETCH).then((response) => {
-      setSuggestionResponse({ response });
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
-
   useEffect(() => {
-    if (suggestionResponse.response) {
-      const data = suggestionResponse.response.data.data;
-      setSuggestionData([{
-        id: data.map((data) => (data.id)),
-        suggestionsName: data.map((data) => (data.suggestionsName))
-      }]);
-      setSuggestionName(data.map((data) => (data.suggestionsName)))
+    const onClickSuggestion = () => {
+      fetchSuggestion().then((response) => {
+        console.log(response);
+        if (response) {
+          const data = response.data.data;
+          setSuggestionData([{
+            id: data.map((data) => (data.id)),
+            suggestionsName: data.map((data) => (data.suggestionsName))
+          }]);
+          setSuggestionName(data.map((data) => (data.suggestionsName)))
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
     }
-  }, [suggestionResponse]);
+    onClickSuggestion();
+  }, []);
 
-  const onHandleReset = event => {
+  const onHandleReset = () => {
     setFormData({
       newsPlace: "",
       newsTopic: "",
@@ -377,9 +374,10 @@ function CreateNews() {
                         labelId="demo-simple-select-outlined-label"
                         placeholder="suggestions"
                         name="suggestions"
+                        MenuProps={MenuProps}
                         className="textFeild__inner__dropbox"
-                        onClick={() => { onClickSuggestion() }}
-                        onChange={(e) => { setFormData({ ...formData, suggestions: mappedId(e.target.value) }) }}>
+                        onChange={(e) => { setFormData({ ...formData, suggestions: mappedId(e.target.value) }) }}
+                      >
                         {
                           suggestionName.map((suggestionName, id) =>
                             <MenuItem value={id}>{suggestionName}</MenuItem>
@@ -473,9 +471,6 @@ function CreateNews() {
           </Grid>
         </Grid>
       </form>
-      <div className='footer'>
-        <Footer />
-      </div>
     </div>
   )
 }

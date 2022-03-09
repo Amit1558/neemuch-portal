@@ -6,10 +6,8 @@ import CrossIcon from '@material-ui/icons/Close';
 import { useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core'
 import { Dialog, DialogTitle, DialogContent } from '@material-ui/core';
-import { URL_SUGGESTION_FETCH } from '../../../constant/endpoints.js';
-import axios from 'axios';
-import { URL_UPDATE_NEWS } from '../../../constant/endpoints.js';
-import { updatePost } from '../../../api/api-call.js';
+import { fetchNewsSuggestion, updatePost } from '../../../api/api-call.js';
+import MenuProps from '../../../icons/MenuProps.js';
 
 const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
   const [formData, setFormData] = useState({
@@ -39,7 +37,6 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
   );
   const [file, setFile] = useState();
   const [suggestionName, setSuggestionName] = useState([]);
-  const [suggestionResponse, setSuggestionResponse] = useState({});
   const [ loader, setLoader] = useState(false);
   const [suggestionData, setSuggestionData] = useState([{
     id: "",
@@ -50,6 +47,7 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
   }
 
   useEffect(() => {
+    console.log(mappedValue);
     if (mappedValue.newsId) {
       setFormData({
         newsId: mappedValue.newsId,
@@ -60,7 +58,7 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
         newsCategory: mappedValue.newsCategory,
         sourceName: mappedValue.sourceName,
         sourceUrl: mappedValue.sourceUrl,
-        suggestions: 1,
+        suggestions: 7,
         newsMasterEnglish: {
           englishNewsIid: mappedValue.newsMasterEnglish.englishNewsIid,
           headlines: mappedValue.newsMasterEnglish.headlines,
@@ -109,23 +107,24 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
   }
 
   useEffect(() => {
-    if (suggestionResponse.response) {
-      const data = suggestionResponse.response.data.data;
-      setSuggestionData([{
-        id: data.map((data) => (data.id)),
-        suggestionsName: data.map((data) => (data.suggestionsName))
-      }]);
-      setSuggestionName(data.map((data) => (data.suggestionsName)))
+    const onClickSuggestion= ()=> {
+      fetchNewsSuggestion().then((response) => {
+        if (response) {
+          const data = response.data.data;
+          setSuggestionData([{
+            id: data.map((data) => (data.id)),
+            suggestionsName: data.map((data) => (data.suggestionsName))
+          }]);
+          setSuggestionName(data.map((data) => (data.suggestionsName)))
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
     }
-  }, [suggestionResponse]);
+    onClickSuggestion();
+    
+  }, []);
 
-  async function onClickSuggestion() {
-    await axios.get(URL_SUGGESTION_FETCH).then((response) => {
-      setSuggestionResponse({ response });
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
 
   return (
     <Dialog open={openPopUp}>
@@ -155,7 +154,6 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                     </div>
 
                     <div className="inner-div-popup">
-                      {/* <div className="inner__item"> */}
                       <TextField
                         variant="outlined"
                         label="Headline (हिंदी)"
@@ -164,10 +162,8 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                         value={formData.newsMasterHindi.hindiHeadlines}
                         onChange={(e) => { setFormData({ ...formData, newsMasterHindi: { ...formData.newsMasterHindi, hindiHeadlines: e.target.value } }) }}
                       />
-                      {/* </div> */}
                     </div>
                     <div className="inner-div-popup">
-                      {/* <div className="inner__item"> */}
                       <TextField
                         variant="outlined"
                         multiline
@@ -179,7 +175,6 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                         name="hindiShortDescription"
                         onChange={(e) => { setFormData({ ...formData, newsMasterHindi: { ...formData.newsMasterHindi, hindiShortDescription: e.target.value } }) }}
                       />
-                      {/* </div> */}
                     </div>
                     <div className="inner-div-popup">
                       <TextField
@@ -205,7 +200,6 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
 
 
                     <div className="inner-div-popup">
-                      {/* <div className="inner__item"> */}
                       <TextField
                         variant="outlined"
                         label="Headlines"
@@ -277,7 +271,7 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                         labelId="demo-simple-select-outlined-label"
                         placeholder="suggestions"
                         name="suggestions"
-                        onClick={() => { onClickSuggestion() }}
+                        MenuProps={MenuProps}
                         onChange={(e) => { setFormData({ ...formData, suggestions: mappedId(e.target.value) }) }}>
                         {
                           suggestionName.map((suggestionName, id) =>

@@ -5,9 +5,8 @@ import CrossIcon from '@material-ui/icons/Close';
 import { useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core'
 import { Dialog, DialogContent } from '@material-ui/core';
-import { URL_BUSINESS_CATEGORY_FETCH } from '../../../constant/endpoints.js';
-import axios from 'axios';
-import { updateInventory } from '../../../api/api-call.js';
+import { fetchService, updateInventory } from '../../../api/api-call.js';
+import MenuProps from '../../../icons/MenuProps.js';
 
 
 const InventoryPopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
@@ -30,7 +29,6 @@ const InventoryPopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) =
   const [file, setFile] = useState();
 
   const [suggestionName, setSuggestionName] = useState([]);
-  const [suggestionResponse, setSuggestionResponse] = useState({});
   const [loader, setLoader] = useState(false);
   const [suggestionData, setSuggestionData] = useState([{
     id: "",
@@ -87,23 +85,20 @@ const InventoryPopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) =
   } 
 
   useEffect(() => {
-    if (suggestionResponse.response) {
-      const data = suggestionResponse.response.data.data;
-      setSuggestionData([{
-        id: data.map((data) => (data.businessCategoryId)),
-        suggestionsName: data.map((data) => (data.businessCategoryName))
-      }]);
-      setSuggestionName(data.map((data) => (data.businessCategoryName)))
-    }
-  }, [suggestionResponse]);
-
-  async function onClickSuggestion() {
-    await axios.get(URL_BUSINESS_CATEGORY_FETCH).then((response) => {
-      setSuggestionResponse({ response });
+    fetchService().then((response) => {
+      if (response) {
+        const data = response.data.data;
+        setSuggestionData([{
+          id: data.map((data) => (data.businessCategoryId)),
+          suggestionsName: data.map((data) => (data.businessCategoryName))
+        }]);
+        setSuggestionName(data.map((data) => (data.businessCategoryName)))
+      }
     }).catch((err) => {
       console.log(err);
     })
-  }
+    
+  }, []);
 
   return (
     <Dialog open={openPopUp}>
@@ -178,7 +173,7 @@ const InventoryPopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) =
                         label="Bussiness Category"
                         name="businessCategoryId"
                         value={formData.businessCategoryId}
-                        onClick={() => { onClickSuggestion() }}
+                        MenuProps={MenuProps}
                         onChange={(e) => { setFormData({ ...formData, businessCategoryId: mappedId(e.target.value) }) }}>
                         {
                           suggestionName.map((suggestionName, id) =>

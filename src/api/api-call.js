@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URL_FETCH_NEWS, URL_DELETE_NEWS, URL_CREATE_NEWS, URL_INVENTORY_FETCH_ALL, URL_DELETE_INVENTORY, URL_UPDATE_INVENTORY, URL_CREATE_INVENTORY } from '../constant/endpoints.js'
+import { URL_FETCH_NEWS, URL_DELETE_NEWS, URL_CREATE_NEWS, URL_INVENTORY_FETCH_ALL, URL_DELETE_INVENTORY, URL_UPDATE_INVENTORY, URL_CREATE_INVENTORY, URL_SUGGESTION_FETCH, URL_BUSINESS_CATEGORY_FETCH } from '../constant/endpoints.js'
 
 const url = "https://neemuch-news.herokuapp.com";
 const API = axios.create({ baseURL: 'https://neemuch-news.herokuapp.com' });
@@ -29,3 +29,9 @@ export const inventoryFetchAll = () => API.get(`${URL_INVENTORY_FETCH_ALL}`);
 export const updateInventory = (post) => API.put(`${URL_UPDATE_INVENTORY}`, post);
 
 export const createInventory = (post) => API.post(`${URL_CREATE_INVENTORY}`, post)
+
+export const fetchSuggestion = () => API.get(URL_SUGGESTION_FETCH);
+
+export const fetchService = () => API.get(URL_BUSINESS_CATEGORY_FETCH);
+
+export const fetchNewsSuggestion = () => API.get(URL_SUGGESTION_FETCH);
