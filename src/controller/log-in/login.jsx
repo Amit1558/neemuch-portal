@@ -3,11 +3,9 @@ import newsIcon from '../../icons/newsIcon.svg';
 import { useHistory } from 'react-router';
 import { useState } from 'react';
 import axios from 'axios';
-import { URL_LOGIN, URL_DELETE_NEWS } from '../../constant/endpoints.js';
+import { URL_LOGIN } from '../../constant/endpoints.js';
 import { CREDS_ERROR } from '../../constant/constants.js';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { LinearProgress } from '@material-ui/core';
-import Footer from '../footer/footer.jsx';
 function Login() {
   const history = useHistory();
   const [details, setDetails] = useState({ username: "", password: "" });
@@ -90,9 +88,6 @@ function Login() {
             </div>
           </div>
         </div>
-      </div>
-      <div className='footer'>
-        <Footer />
       </div>
     </div>
   );

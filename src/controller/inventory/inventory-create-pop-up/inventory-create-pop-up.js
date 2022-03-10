@@ -5,10 +5,9 @@ import CrossIcon from '@material-ui/icons/Close';
 import { useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core'
 import { Dialog, DialogContent } from '@material-ui/core';
-import { URL_BUSINESS_CATEGORY_FETCH } from '../../../constant/endpoints.js';
-import axios from 'axios';
-import { URL_CREATE_INVENTORY } from '../../../constant/endpoints.js';
 import { createInventory, fetchService } from '../../../api/api-call.js';
+import { useForm } from 'react-hook-form';
+import { REQUIRED } from '../../../constant/constants';
 import MenuProps from '../../../icons/MenuProps.js';
 
 
@@ -31,15 +30,15 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
   const [file, setFile] = useState();
 
   const [suggestionName, setSuggestionName] = useState([]);
-  const [suggestionResponse, setSuggestionResponse] = useState({});
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [loader, setLoader] = useState(false);
   const [suggestionData, setSuggestionData] = useState([{
     id: "",
     suggestionName: ""
   }]);
 
-   function handleUpdate(e) {
-    e.preventDefault();
+   function handleUpdate() {
+    reset();
     const input = document.getElementById("inpFile");
     const data = new FormData();
     const newsRequest = new Blob([JSON.stringify(formData)], {
@@ -58,6 +57,7 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
       }
     }).catch((err) => {
         console.log(err);
+        setLoader(false);
       })
   }
 
@@ -93,7 +93,7 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
         <div className="popup__cross__div">
           <CrossIcon fontSize="large" onClick={() => { closePopUp() }} />
         </div>
-        <form type="get" onSubmit={handleUpdate}>
+        <form type="get" onSubmit={handleSubmit(handleUpdate)}>
           <div className="popup__container" id="popupcontainer">
             {
               !formData ?
@@ -121,6 +121,12 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
                           name="businessName"
                           className="textFeild__inventory__inner"
                           value={formData.businessName}
+                          id="businessName"
+                          {...register("businessName", {
+                            required: REQUIRED
+                          })}
+                          error={Boolean(errors.businessName)}
+                          helperText={errors.businessName?.message}
                           onChange={(e) => { setFormData({ ...formData, businessName: e.target.value }) }}
                         />
                       </div>
@@ -134,6 +140,12 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
                           name="businessMsisdn"
                           className="textFeild__inventory__inner"
                           value={formData.businessMsisdn}
+                          id="businessMsisdn"
+                          {...register("businessMsisdn", {
+                            required: REQUIRED
+                          })}
+                          error={Boolean(errors.businessMsisdn)}
+                          helperText={errors.businessMsisdn?.message}
                           onChange={(e) => { setFormData({ ...formData, businessMsisdn: e.target.value }) }}
                         />
                       </div>
@@ -146,6 +158,12 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
                         label="Business Owner"
                         value={formData.businessOwner}
                         className="textFeild__inventory__inner"
+                        id="businessOwner"
+                        {...register("businessOwner", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.businessOwner)}
+                        helperText={errors.businessOwner?.message}
                         onChange={(e) => { setFormData({ ...formData, businessOwner: e.target.value }) }}
                       />
                     </div>
@@ -161,6 +179,12 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
                         name="businessCategoryId"
                         value={formData.businessCategoryId}
                         MenuProps={MenuProps}
+                        id="businessCategoryId"
+                        {...register("businessCategoryId", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.businessCategoryId)}
+                        helperText={errors.businessCategoryId?.message}
                         onChange={(e) => { setFormData({ ...formData, businessCategoryId: mappedId(e.target.value) }) }}>
                         {
                           suggestionName.map((suggestionName, id) =>
@@ -179,6 +203,12 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
                         name="businessCity"
                         value={formData.businessCity}
                         className="textFeild__inventory__inner"
+                        id="businessCity"
+                        {...register("businessCity", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.businessCity)}
+                        helperText={errors.businessCity?.message}
                         onChange={(e) => { setFormData({ ...formData, businessCity: e.target.value }) }} />
                     </div>
                   </div>
@@ -193,6 +223,12 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
                         label="Pin Code"
                         name="businessPinCode"
                         value={formData.businessPinCode}
+                        id="businessPinCode"
+                        {...register("businessPinCode", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.businessPinCode)}
+                        helperText={errors.businessPinCode?.message}
                         onChange={(e) => { setFormData({ ...formData, businessPinCode: e.target.value }) }}
                       />
                     </div>
@@ -206,6 +242,12 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
                         className="textFeild__inventory__inner"
                         name="businessState"
                         value={formData.businessState}
+                        id="businessState"
+                        {...register("businessState", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.businessState)}
+                        helperText={errors.businessState?.message}
                         onChange={(e) => { setFormData({ ...formData, businessState: e.target.value }) }}
                       />
                     </div>
@@ -221,6 +263,12 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
                       className="textFeild__popup__inner"
                       value={formData.businessInfo}
                       name="businessInfo"
+                      id="businessInfo"
+                      {...register("businessInfo", {
+                        required: REQUIRED
+                      })}
+                      error={Boolean(errors.businessInfo)}
+                      helperText={errors.businessInfo?.message}
                       onChange={(e) => { setFormData({ ...formData, businessInfo: e.target.value }) }}
                     />
                   </div>
@@ -239,6 +287,12 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
                         className="textFeild__popup__inner"
                         id="inpFile"
                         name="file"
+                        id="inpFile"
+                        {...register("inpFile", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.inpFile)}
+                        helperText={errors.inpFile?.message}
                         onChange={(e) => { setFile({ file: e.target.value }) }}
                       />
                     </div>

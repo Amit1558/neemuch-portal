@@ -41,7 +41,7 @@ function Inventory() {
     deleteInvenById(deleteId).then(
       inventoryFetchAll().then((response) => {
         const res = response.data.data.content
-        setResult(
+        setPost(
           res.filter(post => {
             return post.businessId !== deleteId;
           }))
@@ -90,7 +90,7 @@ function Inventory() {
       <Home module={MODULE_INVENTORY} />
       <Grid container spacing={5} style={{ padding: "50px 90px" }}>
         <Grid item xs={12}>
-          <Card variant="outlined" style={{ height: "145vh", borderRadius: "8px", overflowX: "hidden" }} >
+          <Card variant="outlined" style={{ height: "165vh", borderRadius: "8px", overflowX: "hidden" }} >
             <div className="all__news__popup close">
               <InventoryPopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} setData={setData}/>
               <InventoryCreatePopUp openPopUp={openCreatePopUp} setCreatePopUp={setCreatePopUp} setData={setData} />

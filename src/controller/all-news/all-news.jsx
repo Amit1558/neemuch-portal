@@ -29,14 +29,12 @@ function AllNews() {
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [post, setPost] = useState([]);
-  const fetchedValue = useSelector(state => state.postReducer);
   const [mappedValue, setMappedValue] = useState({});
   const [postPerPage, setPostPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
   const [res, setRes] = useState([]);
-
   useEffect(() => {
     feedBack().then((response) => {
       setPost(response.data.data);
@@ -69,7 +67,7 @@ function AllNews() {
       console.log(status);
       feedBack().then((response) => {
         const res = response.data.data
-        setRes(
+        setPost(
           res.filter(post => {
             return post.newsId !== deleteId;
           }))

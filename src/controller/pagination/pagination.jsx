@@ -9,7 +9,8 @@ const useStyles = makeStyles(() => ({
         "& .MuiPaginationItem-root": {
             color: "#4BCAEE",
             fontSize: "16px",
-            fontFamily: 'Nunito'
+            fontFamily: 'Nunito',
+            position: "absoulte"
         }
     }
 }));

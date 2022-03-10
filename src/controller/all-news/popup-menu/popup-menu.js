@@ -5,9 +5,11 @@ import TextField from '@material-ui/core/TextField';
 import CrossIcon from '@material-ui/icons/Close';
 import { useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core'
-import { Dialog, DialogTitle, DialogContent } from '@material-ui/core';
+import { Dialog, DialogContent } from '@material-ui/core';
 import { fetchNewsSuggestion, updatePost } from '../../../api/api-call.js';
 import MenuProps from '../../../icons/MenuProps.js';
+import { useForm } from 'react-hook-form';
+import { REQUIRED } from '../../../constant/constants';
 
 const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
   const [formData, setFormData] = useState({
@@ -38,6 +40,7 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
   const [file, setFile] = useState();
   const [suggestionName, setSuggestionName] = useState([]);
   const [ loader, setLoader] = useState(false);
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [suggestionData, setSuggestionData] = useState([{
     id: "",
     suggestionName: ""
@@ -76,8 +79,8 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
     }
   }, [mappedValue])
 
-  async function handleUpdate(e) {
-    e.preventDefault();
+   function handleUpdate() {
+    reset();
     const input = document.getElementById("inpFile");
     const data = new FormData();
     const newsRequest = new Blob([JSON.stringify(formData)], {
@@ -133,7 +136,7 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
           <CrossIcon fontSize="large" onClick={() => { closePopUp() }} />
         </div>
 
-        <form type="get" onSubmit={handleUpdate}>
+        <form type="get" onSubmit={handleSubmit(handleUpdate)}>
           <div className="popup__container" id="popupcontainer">
             {
               !formData ?
@@ -159,6 +162,12 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                         label="Headline (हिंदी)"
                         name="hindiHeadlines"
                         className="textFeild__popup__inner"
+                        id="hindiHeadlines"
+                        {...register("hindiHeadlines", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.hindiHeadlines)}
+                        helperText={errors.hindiHeadlines?.message}
                         value={formData.newsMasterHindi.hindiHeadlines}
                         onChange={(e) => { setFormData({ ...formData, newsMasterHindi: { ...formData.newsMasterHindi, hindiHeadlines: e.target.value } }) }}
                       />
@@ -173,6 +182,12 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                         className="textFeild__popup__inner"
                         value={formData.newsMasterHindi.hindiShortDescription}
                         name="hindiShortDescription"
+                        id="hindiShortDescription"
+                        {...register("hindiShortDescription", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.hindiShortDescription)}
+                        helperText={errors.hindiShortDescription?.message}
                         onChange={(e) => { setFormData({ ...formData, newsMasterHindi: { ...formData.newsMasterHindi, hindiShortDescription: e.target.value } }) }}
                       />
                     </div>
@@ -186,6 +201,12 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                         label="Content (हिंदी)"
                         value={formData.newsMasterHindi.hindiContent}
                         className="textFeild__popup__inner"
+                        id="hindiContent"
+                        {...register("hindiContent", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.hindiContent)}
+                        helperText={errors.hindiContent?.message}
                         onChange={(e) => { setFormData({ ...formData, newsMasterHindi: { ...formData.newsMasterHindi, hindiContent: e.target.value } }) }}
                       />
                     </div>
@@ -206,6 +227,12 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                         name="headlines"
                         className="textFeild__popup__inner"
                         value={formData.newsMasterEnglish.headlines}
+                        id="headlines"
+                        {...register("headlines", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.headlines)}
+                        helperText={errors.headlines?.message}
                         onChange={(e) => { setFormData({ ...formData, newsMasterEnglish: { ...formData.newsMasterEnglish, headlines: e.target.value } }) }}
                       />
                     </div>
@@ -218,6 +245,12 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                         label="Short Description"
                         className="textFeild__popup__inner"
                         name="shortDescription"
+                        id="shortDescription"
+                        {...register("shortDescription", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.shortDescription)}
+                        helperText={errors.shortDescription?.message}
                         value={formData.newsMasterEnglish.shortDescription}
                         onChange={(e) => { setFormData({ ...formData, newsMasterEnglish: { ...formData.newsMasterEnglish, shortDescription: e.target.value } }) }}
                       />
@@ -231,6 +264,12 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                         label="Content"
                         className="textFeild__popup__inner"
                         name="content"
+                        id="content"
+                        {...register("content", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.content)}
+                        helperText={errors.content?.message}
                         value={formData.newsMasterEnglish.content}
                         onChange={(e) => { setFormData({ ...formData, newsMasterEnglish: { ...formData.newsMasterEnglish, content: e.target.value } }) }}
                       />
@@ -246,6 +285,12 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                       label="newsPlace"
                       name="newsPlace"
                       value={formData.newsPlace}
+                      id="newsPlace"
+                      {...register("newsPlace", {
+                        required: REQUIRED
+                      })}
+                      error={Boolean(errors.newsPlace)}
+                      helperText={errors.newsPlace?.message}
                       onChange={(e) => { setFormData({ ...formData, newsPlace: e.target.value }) }}
                     />
                   </div>
@@ -257,6 +302,12 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                         placeholder="Categories"
                         name="newsCategory"
                         value={formData.newsCategory}
+                        id="newsCategory"
+                        {...register("newsCategory", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.newsCategory)}
+                        helperText={errors.newsCategory?.message}
                         onChange={(e) => { setFormData({ ...formData, newsCategory: e.target.value }) }}>
                         <MenuItem value="Trending">All News</MenuItem>
                         <MenuItem value="Sports">My Feed</MenuItem>
@@ -272,6 +323,12 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                         placeholder="suggestions"
                         name="suggestions"
                         MenuProps={MenuProps}
+                        id="suggestions"
+                        {...register("suggestions", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.suggestions)}
+                        helperText={errors.suggestions?.message}
                         onChange={(e) => { setFormData({ ...formData, suggestions: mappedId(e.target.value) }) }}>
                         {
                           suggestionName.map((suggestionName, id) =>
@@ -288,6 +345,12 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                       className="textFeild__popup__inner"
                       name="newsTopic"
                       value={formData.newsTopic}
+                      id="newsTopic"
+                      {...register("newsTopic", {
+                        required: REQUIRED
+                      })}
+                      error={Boolean(errors.newsTopic)}
+                      helperText={errors.newsTopic?.message}
                       onChange={(e) => { setFormData({ ...formData, newsTopic: e.target.value }) }}
                     />
                   </div>
@@ -308,6 +371,12 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                       className="textFeild__popup__inner"
                       name="sourceUrl"
                       value={formData.sourceUrl}
+                      id="sourceUrl"
+                      {...register("sourceUrl", {
+                        required: REQUIRED
+                      })}
+                      error={Boolean(errors.sourceUrl)}
+                      helperText={errors.sourceUrl?.message}
                       onChange={(e) => { setFormData({ ...formData, sourceUrl: e.target.value }) }}
                     />
                   </div>
@@ -329,6 +398,11 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
                         className="textFeild__popup__inner"
                         id="inpFile"
                         name="file"
+                        {...register("inpFile", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.inpFile)}
+                        helperText={errors.inpFile?.message}
                         onChange={(e) => { setFile({ file: e.target.value }) }}
                       />
                     </div>

@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Home from '../home/home.jsx'
 import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
-import { Select, MenuItem, InputLabel, FormControl, FormLabel, Radio, RadioGroup, FormControlLabel } from '@material-ui/core'
-import { URL_CREATE_NEWS, URL_SUGGESTION_FETCH } from '../../constant/endpoints.js';
-import { SEVERITY_WARNING, SEVERITY_ERROR, SEVERITY_SUCCESS, MODULE_CREATE_NEWS } from '../../constant/constants.js'
+import TextField from '@mui/material/TextField';
+import { Select, MenuItem, InputLabel, FormControl, Radio, RadioGroup, FormControlLabel } from '@material-ui/core'
+import { REQUIRED, SEVERITY_ERROR, SEVERITY_SUCCESS, MODULE_CREATE_NEWS } from '../../constant/constants.js'
 import Snackbar from '@material-ui/core/Snackbar';
 import Card from '@material-ui/core/Card';
 import './create-news.css';
 import MuiAlert from '@material-ui/lab/Alert';
 import { createNews, fetchSuggestion } from '../../api/api-call.js';
 import MenuProps from '../../icons/MenuProps.js';
+import { useForm } from 'react-hook-form';
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -22,6 +23,7 @@ function CreateNews() {
     }
     setSnackBar(false);
   };
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [snackBarInfo, setSnackBarInfo] = useState({ severity: "", message: "" });
   const [snackBar, setSnackBar] = useState(false);
   const [file, setFile] = useState();
@@ -49,72 +51,29 @@ function CreateNews() {
       hindiContent: ""
     },
   });
+  console.log(errors);
 
-  const validate = () => {
-    let isError = false;
-    if (!file) {
-      setSnackBar(true);
-      setSnackBarInfo({ message: "File is not chosen!", severity: SEVERITY_WARNING })
-      isError = true;
-    }
-    if (!formData.newsTopic) {
-      setSnackBar(true);
-      setSnackBarInfo({ message: "Topic cannot be blank!", severity: SEVERITY_WARNING })
-      isError = true;
-    }
-    if (!formData.newsCategory) {
-      setSnackBar(true);
-      setSnackBarInfo({ message: "Category cannot be blank!", severity: SEVERITY_WARNING })
-      isError = true;
-    }
-    if (formData.newsMasterHindi.hindiHeadlines) {
-      if (!formData.newsMasterHindi.hindiShortDescription) {
+  const onSubmitClick = () => {
+    reset();
+    const input = document.getElementById("inpFile");
+    const data = new FormData();
+    const newsRequest = new Blob([JSON.stringify(formData)], {
+      type: 'application/json'
+    });
+    data.append("file", input.files[0]);
+    data.append("newsRequest", newsRequest);
+    console.log(formData);
+    createNews(data).then((response) => {
+      if (response) {
         setSnackBar(true);
-        setSnackBarInfo({ message: "Short description (हिंदी) field cannot be blank!", severity: SEVERITY_WARNING })
-        isError = true;
+        setSnackBarInfo({ message: "NewsCreated Successfully", severity: SEVERITY_SUCCESS });
       }
-    }
-    if (formData.newsMasterEnglish.headlines) {
-      if (!formData.newsMasterEnglish.shortDescription) {
+    })
+      .catch((err) => {
         setSnackBar(true);
-        setSnackBarInfo({ message: "Short description field cannot be blank!", severity: SEVERITY_WARNING })
-        isError = true;
-      }
-    }
-    if (!formData.newsMasterHindi.hindiHeadlines && !formData.newsMasterEnglish.headlines) {
-      setSnackBar(true);
-      setSnackBarInfo({ message: "Hindi headlines field cannot be blank!", severity: SEVERITY_WARNING })
-      isError = true;
-    }
-    return isError;
-  }
-
-   function handleSubmit(event) {
-    event.preventDefault();
-    const err = validate();
-
-    if (!err) {
-      const input = document.getElementById("inpFile");
-      const data = new FormData();
-      const newsRequest = new Blob([JSON.stringify(formData)], {
-        type: 'application/json'
-      });
-      data.append("file", input.files[0]);
-      data.append("newsRequest", newsRequest);
-      console.log(formData);
-      console.log(err);
-      createNews(data).then((response) => {
-        if (response) {
-          setSnackBar(true);
-          setSnackBarInfo({ message: "NewsCreated Successfully", severity: SEVERITY_SUCCESS });
-        }
+        setSnackBarInfo({ message: "Error while creating news", severity: SEVERITY_ERROR });
+        console.log(err);
       })
-        .catch((err) => {
-          setSnackBar(true);
-          setSnackBarInfo({ message: "Error while creating news", severity: SEVERITY_ERROR });
-          console.log(err);
-        })
-    }
   }
 
   function mappedId(value) {
@@ -129,7 +88,6 @@ function CreateNews() {
   useEffect(() => {
     const onClickSuggestion = () => {
       fetchSuggestion().then((response) => {
-        console.log(response);
         if (response) {
           const data = response.data.data;
           setSuggestionData([{
@@ -209,7 +167,7 @@ function CreateNews() {
   return (
     <div className="create__contianer">
       <Home module={MODULE_CREATE_NEWS} />
-      <form type="get" id="form" onSubmit={handleSubmit}>
+      <form type="get" id="form" onSubmit={handleSubmit(onSubmitClick)}>
         <Grid container spacing={5} style={{ padding: "50px 90px" }}>
           <Grid item xs={12}>
             <Card variant="outlined" style={{ borderRadius: "8px" }}>
@@ -218,9 +176,7 @@ function CreateNews() {
                   <h2 >Create News</h2>
                 </div>
                 <div className="inner-div">
-
                   <FormControl component="fieldset">
-
                     <div className="inner-div">
                       <div className="inner__item">
                         <h3>Language</h3>
@@ -256,6 +212,12 @@ function CreateNews() {
                               label="Headline (हिंदी)"
                               name="hindiHeadlines"
                               className="textFeild__inner"
+                              id="hindiHeadlines"
+                              {...register("hindiHeadlines", {
+                                required: REQUIRED
+                              })}
+                              error={Boolean(errors.hindiHeadlines)}
+                              helperText={errors.hindiHeadlines?.message}
                               onChange={(e) => { setFormData({ ...formData, newsMasterHindi: { ...formData.newsMasterHindi, hindiHeadlines: e.target.value } }) }}
                             />
                           </div>
@@ -264,8 +226,14 @@ function CreateNews() {
                             <TextField
                               variant="outlined"
                               label="Short Description (हिंदी)"
+                              id="hindiShortDescription"
                               name="hindiShortDescription"
                               className="textFeild__inner"
+                              {...register("hindiShortDescription", {
+                                required: REQUIRED
+                              })}
+                              error={Boolean(errors.hindiShortDescription)}
+                              helperText={errors.hindiShortDescription?.message}
                               onChange={(e) => { setFormData({ ...formData, newsMasterHindi: { ...formData.newsMasterHindi, hindiShortDescription: e.target.value } }) }}
                             />
                           </div>
@@ -276,8 +244,14 @@ function CreateNews() {
                               name="hindiContent"
                               label="Content (हिंदी)"
                               multiline
-                              rows={10}
-                              rowsMax={10}
+                              minRows={10}
+                              maxRows={10}
+                              id="hindiContent"
+                              {...register("hindiContent", {
+                                required: REQUIRED
+                              })}
+                              error={Boolean(errors.hindiContent)}
+                              helperText={errors.hindiContent?.message}
                               className="textFeild__inner"
                               onChange={(e) => { setFormData({ ...formData, newsMasterHindi: { ...formData.newsMasterHindi, hindiContent: e.target.value } }) }} />
                           </div>
@@ -303,6 +277,12 @@ function CreateNews() {
                               label="Headlines"
                               name="headlines"
                               className="textFeild__inner"
+                              id="headlines"
+                              {...register("headlines", {
+                                required: REQUIRED
+                              })}
+                              error={Boolean(errors.headlines)}
+                              helperText={errors.headlines?.message}
                               onChange={(e) => { setFormData({ ...formData, newsMasterEnglish: { ...formData.newsMasterEnglish, headlines: e.target.value } }) }}
                             />
                           </div>
@@ -314,6 +294,12 @@ function CreateNews() {
                               label="Short Description"
                               name="shortDescription"
                               className="textFeild__inner"
+                              id="shortDescription"
+                              {...register("shortDescription", {
+                                required: REQUIRED
+                              })}
+                              error={Boolean(errors.shortDescription)}
+                              helperText={errors.shortDescription?.message}
                               onChange={(e) => { setFormData({ ...formData, newsMasterEnglish: { ...formData.newsMasterEnglish, shortDescription: e.target.value } }) }}
                             />
                           </div>
@@ -325,9 +311,15 @@ function CreateNews() {
                               label="Content"
                               name="content"
                               multiline
-                              rows={10}
-                              rowsMax={10}
+                              minRows={10}
+                              maxRows={10}
                               className="textFeild__inner"
+                              id="content"
+                              {...register("content", {
+                                required: REQUIRED
+                              })}
+                              error={Boolean(errors.content)}
+                              helperText={errors.content?.message}
                               onChange={(e) => { setFormData({ ...formData, newsMasterEnglish: { ...formData.newsMasterEnglish, content: e.target.value } }) }}
                             />
                           </div>
@@ -348,6 +340,12 @@ function CreateNews() {
                       label="Place"
                       name="newsPlace"
                       className="textFeild__inner__metadata"
+                      id="newsPlace"
+                      {...register("newsPlace", {
+                        required: REQUIRED
+                      })}
+                      error={Boolean(errors.newsPlace)}
+                      helperText={errors.newsPlace?.message}
                       onChange={(e) => { setFormData({ ...formData, newsPlace: e.target.value }) }}
                     />
                   </div>
@@ -359,10 +357,16 @@ function CreateNews() {
                         className="textFeild__inner__dropbox"
                         placeholder="Categories"
                         name="newsCategory"
+                        id="newsCategory"
+                        {...register("newsCategory", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.newsCategory)}
+                        helperText={errors.newsCategory?.message}
                         onChange={(e) => { setFormData({ ...formData, newsCategory: e.target.value }) }}>
-                        <MenuItem value="Trending">All News</MenuItem>
-                        <MenuItem value="Sports">My Feed</MenuItem>
-                        <MenuItem value="Politics">Trending</MenuItem>
+                        <MenuItem value="All News">All News</MenuItem>
+                        <MenuItem value="My Feed">My Feed</MenuItem>
+                        <MenuItem value="Trending">Trending</MenuItem>
                       </Select>
                     </FormControl>
                   </div>
@@ -376,6 +380,12 @@ function CreateNews() {
                         name="suggestions"
                         MenuProps={MenuProps}
                         className="textFeild__inner__dropbox"
+                        id="suggestions"
+                        {...register("suggestions", {
+                          required: REQUIRED
+                        })}
+                        error={Boolean(errors.suggestions)}
+                        helperText={errors.suggestions?.message}
                         onChange={(e) => { setFormData({ ...formData, suggestions: mappedId(e.target.value) }) }}
                       >
                         {
@@ -392,6 +402,12 @@ function CreateNews() {
                       label="Topic"
                       name="newsTopic"
                       className="textFeild__inner__metadata"
+                      id="newsTopic"
+                      {...register("newsTopic", {
+                        required: REQUIRED
+                      })}
+                      error={Boolean(errors.newsTopic)}
+                      helperText={errors.newsTopic?.message}
                       onChange={(e) => { setFormData({ ...formData, newsTopic: e.target.value }) }}
                     />
                   </div>
@@ -404,6 +420,12 @@ function CreateNews() {
                       label="Source Name"
                       className="textFeild__inner__field"
                       name="sourceName"
+                      id="sourceName"
+                      {...register("sourceName", {
+                        required: REQUIRED
+                      })}
+                      error={Boolean(errors.sourceName)}
+                      helperText={errors.sourceName?.message}
                       onChange={(e) => { setFormData({ ...formData, sourceName: e.target.value }) }}
                     />
                   </div>
@@ -414,6 +436,12 @@ function CreateNews() {
                       label="Source Url"
                       className="textFeild__inner__field"
                       name="sourceUrl"
+                      id="sourceUrl"
+                      {...register("sourceUrl", {
+                        required: REQUIRED
+                      })}
+                      error={Boolean(errors.sourceUrl)}
+                      helperText={errors.sourceUrl?.message}
                       onChange={(e) => { setFormData({ ...formData, sourceUrl: e.target.value }) }}
                     />
                   </div>
@@ -433,6 +461,11 @@ function CreateNews() {
                       className="textField"
                       id="inpFile"
                       name="file"
+                      {...register("inpFile", {
+                        required: REQUIRED
+                      })}
+                      error={Boolean(errors.inpFile)}
+                      helperText={errors.inpFile?.message}
                       onChange={(e) => { setFile({ file: e.target.value }) }}
                     />
                   </div>
