@@ -9,6 +9,7 @@ import { createInventory, fetchService } from '../../../api/api-call.js';
 import { useForm } from 'react-hook-form';
 import { REQUIRED } from '../../../constant/constants';
 import MenuProps from '../../../icons/MenuProps.js';
+import { useSnackbar } from 'notistack';
 
 
 const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
@@ -30,7 +31,8 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
   const [file, setFile] = useState();
 
   const [suggestionName, setSuggestionName] = useState([]);
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { enqueueSnackbar } = useSnackbar();
   const [loader, setLoader] = useState(false);
   const [suggestionData, setSuggestionData] = useState([{
     id: "",
@@ -38,7 +40,6 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
   }]);
 
    function handleUpdate() {
-    reset();
     const input = document.getElementById("inpFile");
     const data = new FormData();
     const newsRequest = new Blob([JSON.stringify(formData)], {
@@ -50,13 +51,17 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
     console.log(file);
     setLoader(true);
     createInventory(data).then((response)=>{
+      console.log(response);
       if(response){
+        console.log(response);
         setData();
         closePopUp();
+        enqueueSnackbar('Service created successfully.', { variant: "success" });
         setLoader(false);
       }
     }).catch((err) => {
-        console.log(err);
+        enqueueSnackbar('Error creating service!', { variant: "error" });
+        console.log(err.message);
         setLoader(false);
       })
   }

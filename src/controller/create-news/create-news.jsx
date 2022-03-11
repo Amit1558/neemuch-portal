@@ -3,29 +3,17 @@ import Home from '../home/home.jsx'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@mui/material/TextField';
 import { Select, MenuItem, InputLabel, FormControl, Radio, RadioGroup, FormControlLabel } from '@material-ui/core'
-import { REQUIRED, SEVERITY_ERROR, SEVERITY_SUCCESS, MODULE_CREATE_NEWS } from '../../constant/constants.js'
-import Snackbar from '@material-ui/core/Snackbar';
+import { REQUIRED, MODULE_CREATE_NEWS } from '../../constant/constants.js'
 import Card from '@material-ui/core/Card';
 import './create-news.css';
-import MuiAlert from '@material-ui/lab/Alert';
 import { createNews, fetchSuggestion } from '../../api/api-call.js';
 import MenuProps from '../../icons/MenuProps.js';
 import { useForm } from 'react-hook-form';
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import { useSnackbar } from 'notistack';
 
 function CreateNews() {
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackBar(false);
-  };
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const [snackBarInfo, setSnackBarInfo] = useState({ severity: "", message: "" });
-  const [snackBar, setSnackBar] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [file, setFile] = useState();
   const [language, setLanguage] = useState(3);
   const [suggestionName, setSuggestionName] = useState([]);
@@ -51,10 +39,8 @@ function CreateNews() {
       hindiContent: ""
     },
   });
-  console.log(errors);
 
   const onSubmitClick = () => {
-    reset();
     const input = document.getElementById("inpFile");
     const data = new FormData();
     const newsRequest = new Blob([JSON.stringify(formData)], {
@@ -65,13 +51,11 @@ function CreateNews() {
     console.log(formData);
     createNews(data).then((response) => {
       if (response) {
-        setSnackBar(true);
-        setSnackBarInfo({ message: "NewsCreated Successfully", severity: SEVERITY_SUCCESS });
+        enqueueSnackbar('News Created Successfully.', { variant: "success" });
       }
     })
       .catch((err) => {
-        setSnackBar(true);
-        setSnackBarInfo({ message: "Error while creating news", severity: SEVERITY_ERROR });
+        enqueueSnackbar('Error creating news!', { variant: "error" });
         console.log(err);
       })
   }
@@ -489,13 +473,6 @@ function CreateNews() {
                         type="reset">
                         Reset
                       </button>
-                      <div className="snackbar">
-                        <Snackbar open={snackBar} autoHideDuration={6000} onClose={handleClose}>
-                          <Alert onClose={handleClose} severity={snackBarInfo.severity}>
-                            {snackBarInfo.message}
-                          </Alert>
-                        </Snackbar>
-                      </div>
                     </div>
                   </div>
                 </div>

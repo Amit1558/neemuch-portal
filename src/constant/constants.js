@@ -11,4 +11,4 @@ export const MODULE_DASHBOARD='dashboard';
 export const MODULE_CREATE_NEWS='createnews';
 export const MODULE_ALL_NEWS='allnews';
 export const MODULE_INVENTORY='inventory';
-export const REQUIRED = 'This field is required.'
+export const REQUIRED = 'This field is required!'

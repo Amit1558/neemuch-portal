@@ -15,9 +15,6 @@ body::-webkit-scrollbar-thumb {
   background:	rgb(109, 109, 109);
 }
 
-.snackbar{
-  width:100%;
-}
 
 .create__input-box{
   height: 10px;

@@ -5,9 +5,8 @@ import Login from './controller/log-in/login.jsx';
 import Inventory from './controller/inventory/inventory.jsx';
 import { useState } from 'react';
 import './App.css'
-import { Route, Redirect, Switch, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import ProtectedRoute from './protected-routes/protectedroutes.jsx';
-import Auth from './authentication/auth.jsx';
 
 function App() {
   return (

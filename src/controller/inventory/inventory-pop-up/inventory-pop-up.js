@@ -9,7 +9,7 @@ import MenuProps from '../../../icons/MenuProps.js';
 import { fetchService, updateInventory } from '../../../api/api-call.js';
 import { useForm } from 'react-hook-form';
 import { REQUIRED } from '../../../constant/constants';
-
+import { useSnackbar } from 'notistack';
 
 const InventoryPopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
   const [formData, setFormData] = useState({
@@ -31,7 +31,8 @@ const InventoryPopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) =
   const [file, setFile] = useState();
 
   const [suggestionName, setSuggestionName] = useState([]);
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { enqueueSnackbar } = useSnackbar();
   const [loader, setLoader] = useState(false);
   const [suggestionData, setSuggestionData] = useState([{
     id: "",
@@ -57,7 +58,6 @@ const InventoryPopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) =
   }, [mappedValue])
 
   function handleUpdate() {
-    reset();
     const input = document.getElementById("inpFile");
     const data = new FormData();
     const newsRequest = new Blob([JSON.stringify(formData)], {
@@ -70,9 +70,11 @@ const InventoryPopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) =
       if (response) {
         setData();
         closePopUp();
+        enqueueSnackbar('Service updated successfully.', { variant: "success" });
         setLoader(false);
       }
     }).catch((err) => {
+      enqueueSnackbar('Error updating service!', { variant: "error" });
       console.log(err);
       setLoader(false);
     })

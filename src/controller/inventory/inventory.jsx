@@ -22,6 +22,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { deleteInvenById, feedBack, inventoryFetchAll } from '../../api/api-call.js';
 import Paginate from '../pagination/pagination.jsx';
+import { useSnackbar } from 'notistack';
 
 function Inventory() {
   const [openPopUp, setOpenPopup] = useState(false);
@@ -30,6 +31,8 @@ function Inventory() {
   const [deleteId, setDeleteId] = useState();
   const [mappedValue, setMappedValue] = useState({});
   const [post, setPost] = useState([]);
+  const { enqueueSnackbar } = useSnackbar();
+  const [searchTerm, setSearchTerm] = useState("");
   const [postPerPage, setPostPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastPost = currentPage * postPerPage;
@@ -45,15 +48,37 @@ function Inventory() {
           res.filter(post => {
             return post.businessId !== deleteId;
           }))
-      })).catch((error)=>{console.log(error);
+        enqueueSnackbar('Service deleted successfully.', { variant: "success" });
+      })).catch((error) => {
+        enqueueSnackbar('Error updating service!', { variant: "error" });
+        console.log(error);
       });
+  }
+
+  const onSearch = (event) => {
+    setSearchTerm(event.target.value);
+    inventoryFetchAll().then((response) => {
+      const res = response.data.data.content
+      setPost(
+        res.filter(post => {
+          console.log(post.businessName.toLowerCase())
+          if (event.target.value === "") {
+            return post;
+          } else {
+            if (post.businessName.toLowerCase().includes(searchTerm.toLowerCase()))
+              return post;
+          }
+        }))
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   useEffect(() => {
     inventoryFetchAll().then((response) => {
       setPost(response.data.data.content);
     });
-  },[])
+  }, [])
 
   const setData = () => {
     inventoryFetchAll().then((response) => {
@@ -61,13 +86,13 @@ function Inventory() {
     });
   };
 
-    const page = (value) => { 
-      setCurrentPage(value)
-    };
+  const page = (value) => {
+    setCurrentPage(value)
+  };
 
   useEffect(() => {
     setResult(post.slice(indexOfFirstPost, indexOfLastPost));
-  }, [post,indexOfFirstPost,indexOfLastPost])
+  }, [post, indexOfFirstPost, indexOfLastPost])
 
   const onConfirm = (value) => {
     setOpenDelete(true);
@@ -92,7 +117,7 @@ function Inventory() {
         <Grid item xs={12}>
           <Card variant="outlined" style={{ height: "165vh", borderRadius: "8px", overflowX: "hidden" }} >
             <div className="all__news__popup close">
-              <InventoryPopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} setData={setData}/>
+              <InventoryPopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} setData={setData} />
               <InventoryCreatePopUp openPopUp={openCreatePopUp} setCreatePopUp={setCreatePopUp} setData={setData} />
               <Dialog
                 open={openDelete}
@@ -126,6 +151,7 @@ function Inventory() {
                   variant="outlined"
                   placeholder="Search Services..."
                   name="search-news"
+                  onChange={(event) => { onSearch(event) }}
                   style={{
                     width: "100%",
                     padding: "20px",

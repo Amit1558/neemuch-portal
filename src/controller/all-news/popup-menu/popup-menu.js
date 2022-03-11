@@ -10,6 +10,7 @@ import { fetchNewsSuggestion, updatePost } from '../../../api/api-call.js';
 import MenuProps from '../../../icons/MenuProps.js';
 import { useForm } from 'react-hook-form';
 import { REQUIRED } from '../../../constant/constants';
+import { useSnackbar } from 'notistack';
 
 const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
   const [formData, setFormData] = useState({
@@ -37,6 +38,7 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
     imageUrl: "",
   }
   );
+  const { enqueueSnackbar } = useSnackbar();
   const [file, setFile] = useState();
   const [suggestionName, setSuggestionName] = useState([]);
   const [ loader, setLoader] = useState(false);
@@ -80,7 +82,6 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
   }, [mappedValue])
 
    function handleUpdate() {
-    reset();
     const input = document.getElementById("inpFile");
     const data = new FormData();
     const newsRequest = new Blob([JSON.stringify(formData)], {
@@ -96,7 +97,12 @@ const PopUpMenu = ({ openPopUp, setOpenPopup, mappedValue, setData }) => {
         setData();
         closePopUp();
         setLoader(false);
+        enqueueSnackbar('News updated successfully.', { variant: "success" });
       }
+    }).catch((err) => {
+      setLoader(false);
+      enqueueSnackbar('Error updating news!', { variant: "error" });
+      console.log(err);
     });
   }
 
