@@ -3,22 +3,15 @@ import './home.css';
 import { Link } from 'react-router-dom';
 import Auth from '../../authentication/auth.jsx';
 import { useHistory } from 'react-router';
-import { fetch, fetchInventory } from '../../actions/posts.js'
+import { fetch } from '../../actions/posts.js'
 import { useDispatch } from 'react-redux';
-import { inventoryFetchAll } from '../../api/api-call.js';
 function Home(props) {
   const dispatch = useDispatch();
   const history = useHistory();
-  // const [result, setResult] = useState([]);
 
   function getAllNews() {
     dispatch(fetch());
   }
-
-  // function getInventoryData(){
-  //   dispatch(fetchInventory());
-  // }
-
 
   const handleLoginClick = (data) => {
     Auth.logout();

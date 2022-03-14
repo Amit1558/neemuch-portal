@@ -60,7 +60,8 @@
     justify-content: center;
     background-color: white;
     border: 1px solid #dadce0;
-    /* outline: none; */
+    font-family: 'Nunito', sans-serif;
+    border: none;
 }
 
 .button-container {
@@ -68,7 +69,6 @@
     justify-content: center;
     height: 60px;
     width: 100%;
-    /* border-radius: 8px; */
     background-color: white;
 }
 
@@ -81,7 +81,6 @@
     width: 120px;
     border-radius: 5px;
     border: 1px solid #dadce0;
-    ;
     font-family: 'Nunito', sans-serif;
     color: white;
     font-size: 20px;
@@ -90,6 +89,10 @@
     cursor: pointer;
     outline: none;
 }
+
+.button:hover{
+    background-color: #089bc4;
+  }
 
 .icon {
     height: 65px;
@@ -103,11 +106,14 @@
     display: flex;
     justify-content: center;
     margin-left: 10px;
+    font-family: 'Nunito', sans-serif;
 }
 
+
  ::placeholder {
-    opacity: 1;
-    font-family: Arial, Helvetica, sans-serif;
+    opacity: 0.50;
+    font-size: large;
+    font-family: 'Nunito', sans-serif;
 }
 
 .password-container {

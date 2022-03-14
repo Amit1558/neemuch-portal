@@ -5,13 +5,23 @@ import { useState } from 'react';
 import axios from 'axios';
 import { URL_LOGIN } from '../../constant/endpoints.js';
 import { CREDS_ERROR } from '../../constant/constants.js';
-import { LinearProgress } from '@material-ui/core';
+import { IconButton, Input, InputAdornment, LinearProgress } from '@material-ui/core';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
 function Login() {
   const history = useHistory();
   const [details, setDetails] = useState({ username: "", password: "" });
+  const [password, setPassword] = useState(true)
   const [message, setMessage] = useState('')
   const [loader, setLoader] = useState(false);
+  const handleClickShowPassword = () => {
+    setPassword(!password);
+  };
 
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   async function handleLoginClick(details) {
     setLoader(true);
     await axios.post(URL_LOGIN, details).then((response) => {
@@ -20,7 +30,6 @@ function Login() {
         localStorage.setItem("admin", response.data);
         localStorage.setItem("access-token", response.data.data.accessToken);
         console.log(response.data.data.accessToken);
-        // Auth.isAuthenticated();
         history.push({
           pathname: '/neemuchnews/createnews',
         })
@@ -53,24 +62,40 @@ function Login() {
             <div className="login-form">
               <form className="form" >
                 <div className="email-container">
-                  <input
+                  <Input
                     type="email"
                     name="username"
                     className="email"
                     placeholder="Username"
                     onChange={(e) => { setDetails({ ...details, username: e.target.value }) }}
                     value={details.username}
-                  ></input>
+                    label="email"
+                  />
                 </div>
                 <div className="password-container">
-                  <input type="password"
+                  <Input
                     name="password"
                     className="password"
+                    type={password ? 'password': 'text'}
                     placeholder="Password"
                     onChange={(e) => { setDetails({ ...details, password: e.target.value }) }}
                     value={details.password}
-                  ></input>
-                </div>
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          edge="end"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {password ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Password"
+                  />
+                  </div>
+                {/* </FormControl> */}
               </form>
             </div>
             <div className="button-container">
