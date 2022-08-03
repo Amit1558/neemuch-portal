@@ -72,7 +72,7 @@ function Home(props) {
             id="createnews"> Create&nbsp;News</Link>
           <Link to="/neemuchnews/inventory"
             className="home__inventory"
-            id="inventory">Inventory</Link>
+            id="inventory">Services</Link>
         </div>
         <div className="logout__button">
           <button className="home__button"

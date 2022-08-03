@@ -23,6 +23,8 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
     businessState: "",
     businessInfo: "",
     businessLogoUrl: "",
+    longitude:"",
+    latitude:""
   });
 
   const closePopUp = () => {
@@ -47,13 +49,9 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
     });
     data.append("file", input.files[0]);
     data.append("businessRequest", newsRequest);
-    console.log(formData);
-    console.log(file);
     setLoader(true);
     createInventory(data).then((response)=>{
-      console.log(response);
       if(response){
-        console.log(response);
         setData();
         closePopUp();
         enqueueSnackbar('Service created successfully.', { variant: "success" });
@@ -93,7 +91,7 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
 
 
   return (
-    <Dialog open={openPopUp}>
+    <Dialog open={openPopUp} fullWidth={true}>
       <DialogContent dividers>
         <div className="popup__cross__div">
           <CrossIcon fontSize="large" onClick={() => { closePopUp() }} />
@@ -261,6 +259,40 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
                   <div className="inner-div-popup">
                     <TextField
                       variant="outlined"
+                      label="Longitude"
+                      className="textFeild__popup__inner"
+                      value={formData.longitude}
+                      name="longitude"
+                      id="longitude"
+                      {...register("longitude", {
+                        required: REQUIRED
+                      })}
+                      error={Boolean(errors.longitude)}
+                      helperText={errors.longitude?.message}
+                      onChange={(e) => { setFormData({ ...formData, longitude: e.target.value }) }}
+                    />
+                  </div>
+
+                  <div className="inner-div-popup">
+                    <TextField
+                      variant="outlined"
+                      label="Latitude"
+                      className="textFeild__popup__inner"
+                      value={formData.latitude}
+                      name="latitude"
+                      id="latitude"
+                      {...register("latitude", {
+                        required: REQUIRED
+                      })}
+                      error={Boolean(errors.latitude)}
+                      helperText={errors.latitude?.message}
+                      onChange={(e) => { setFormData({ ...formData, latitude: e.target.value }) }}
+                    />
+                  </div>
+
+                  <div className="inner-div-popup">
+                    <TextField
+                      variant="outlined"
                       multiline
                       rows={10}
                       rowsMax={10}
@@ -292,7 +324,6 @@ const InventoryCreatePopUp = ({ openPopUp, setCreatePopUp, setData }) => {
                         className="textFeild__popup__inner"
                         id="inpFile"
                         name="file"
-                        id="inpFile"
                         {...register("inpFile", {
                           required: REQUIRED
                         })}
