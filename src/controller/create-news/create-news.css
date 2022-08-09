@@ -1,6 +1,7 @@
 .create__contianer{
   background-color:	#e8eaec;
   overflow:hidden;
+  margin-top: 70px;
 }
 
 body::-webkit-scrollbar {
@@ -158,8 +159,13 @@ body::-webkit-scrollbar-thumb {
   width: 23.5%;
 }
 
-.inner__item__button{
+.inner__item__button__create{
   width:10%;
+}
+
+.inner__item__button__reset{
+  width:10%;
+  margin-left: 20px;
 }
 
 .create_title{

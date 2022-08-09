@@ -3,7 +3,6 @@ import AllNews from './controller/all-news/all-news.jsx';
 import CreateNews from './controller/create-news/create-news.jsx';
 import Login from './controller/log-in/login.jsx';
 import Inventory from './controller/inventory/inventory.jsx';
-import { useState } from 'react';
 import './App.css'
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import ProtectedRoute from './protected-routes/protectedroutes.jsx';

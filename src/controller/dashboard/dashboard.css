@@ -1,6 +1,7 @@
 .dashboard_container {
     overflow: hidden;
     background-color: #e8eaec;
+    margin-top: 70px;
 }
 
 .dashboard__title {

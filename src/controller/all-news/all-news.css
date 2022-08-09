@@ -11,6 +11,7 @@
   background-color:	#e8eaec;
   overflow:hidden;
   position: relative;
+  margin-top: 70px;
 }
 
 .__box{
@@ -53,7 +54,7 @@
   justify-content:center;
   width:15%;
   height: 55%;
-  color: rgb(3, 176, 219);
+  color: #036bd4ed;
   border: 2px solid  rgb(0, 204, 255);
   border-radius: 4px;
   margin-left:100px;
@@ -85,11 +86,12 @@
 .search__icon__div{
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction:row;
   color: rgb(226, 225, 225);
   cursor: pointer;
   width:10%;
-  background-color: #4BCAEE;
+  background-color: #036bd4ed;
   border-radius:4px;
 }
 
@@ -100,7 +102,6 @@
 .search__icon{
   display:flex;
   flex-direction: center;
-  margin-left: 30px;
 }
 
 .search__bar__text{
@@ -110,7 +111,7 @@
    width: 100%;
    font-style:  "italic" ;
    color:"grey";
-   border: "2px solid #dadce0";
+   border: "2px solid #036bd4ed";
    border-radius: "4px"
 }
 

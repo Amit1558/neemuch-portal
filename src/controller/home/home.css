@@ -13,15 +13,13 @@
   color: #ffffff;
   text-decoration: none;
   font-size: 24px;
-  position: absolute;
 }
 
 .home__title2{
-  margin-left:100px;
+  margin-left:10px;
 }
 
 .title__div{
-margin-left:100px;
 width:200px;
 display:flex;
 align-items: center;
@@ -82,3 +80,7 @@ align-items: center;
   cursor: pointer;
 }
 
+.navbar__drawer{
+  color: white;
+  margin-right: 10px;
+}

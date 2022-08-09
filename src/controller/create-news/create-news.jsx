@@ -437,7 +437,7 @@ function CreateNews() {
                 </div>
 
                 <div className="inner-div">
-                  <div className="inner__item__button">
+                  <div className="inner__item__button__create">
                     <div className="button_container">
                       <button
                         className="create__button"
@@ -447,7 +447,7 @@ function CreateNews() {
                       </button>
                     </div>
                   </div>
-                  <div className="inner__item__button">
+                  <div className="inner__item__button__reset">
                     <div className="button_container">
                       <button
                         className="create__button__reset"
