@@ -1,0 +1,17 @@
+.dashboard_container {
+    overflow: hidden;
+    background-color: #e8eaec;
+    margin-top: 70px;
+}
+
+.dashboard__title {
+    display: flex;
+    justify-content: center;
+    margin-top: 275px;
+}
+
+.div__slider {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}

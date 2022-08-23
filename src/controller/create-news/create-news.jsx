@@ -160,7 +160,7 @@ function CreateNews() {
       <form type="get" id="form" onSubmit={handleSubmit(onSubmitClick)}>
         <Grid container spacing={5} style={{ padding: "50px 90px" }}>
           <Grid item xs={12}>
-            <Card variant="outlined" style={{ borderRadius: "8px" }}>
+            <Card variant="outlined">
               <div className="left-form">
                 <div className="create_title">
                   <h2 >Create News</h2>

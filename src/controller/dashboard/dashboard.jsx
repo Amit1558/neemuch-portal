@@ -45,7 +45,7 @@ function Dashboard() {
       <Home module={MODULE_DASHBOARD} />
       <Grid container spacing={12} style={{ padding: "50px 90px" }}>
         <Grid item xs={12}>
-          <Card variant="outlined" style={{ height: "145vh", borderRadius: "8px", overflow: "hidden" }}>
+          <Card variant="outlined" style={{ height: "145vh",overflow: "hidden" }}>
             {
               (post.length === 0 ) ?
                 <div className="circular__progress">

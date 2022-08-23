@@ -87,7 +87,7 @@ export default function SlideDrawer({ drawer }) {
                             <Collapse in={openDropdown} timeout="auto" unmountOnExit>
                                 <List to="/neemuchnews/inventory" onClick={() => { setOpen(false) }} className={classes.link}>
                                     <ListItemButton
-                                    onClick={() => { history.push({ pathname: "/neemuchnews/inventory",}) }}                                    
+                                    onClick={() => { history.push({ pathname: "/neemuchnews/createservice",}) }}                                    
                                     sx={{ pl: 4 }}>
                                         <ListItemText primary="Create Services" sx={{ color: "#fff" }} />
                                     </ListItemButton>
@@ -104,14 +104,14 @@ export default function SlideDrawer({ drawer }) {
                                 {openDropdown ? <ExpandLess /> : <ExpandMore />}
                             </ListItemButton>
                             <Collapse in={openDropdown} timeout="auto" unmountOnExit>
-                                <List to="/neemuchnews/createnews" onClick={() => { setOpen(false) }} className={classes.link}>
+                                <List to="/neemuchnews/goods" onClick={() => { setOpen(false) }} className={classes.link}>
                                     <ListItemButton 
-                                    onClick={() => { history.push({ pathname: "/neemuchnews/dashboard",}) }}
+                                    onClick={() => { history.push({ pathname: "/neemuchnews/goods",}) }}
                                     sx={{ pl: 4 }}>
                                         <ListItemText primary="Create Goods" sx={{ color: "#fff" }} />
                                     </ListItemButton>
                                     <ListItemButton 
-                                    onClick={() => { history.push({ pathname: "/neemuchnews/dashboard",}) }}                                    
+                                    onClick={() => { history.push({ pathname: "/neemuchnews/viewgoods",}) }}                                    
                                     sx={{ pl: 4 }}>
                                         <ListItemText primary="View Goods" sx={{ color: "#fff" }} />
                                     </ListItemButton>

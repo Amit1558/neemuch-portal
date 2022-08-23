@@ -119,10 +119,10 @@
   display: flex;
   flex-direction:row;
   align-items:center;
-  width:50%;
+  width:55%;
   height:80%;
   color:white;
-  background-color: rgb(19, 202, 248);
+  background-color: #036bd4ed;
   border:2px solid rgb(2, 123, 153);
   margin-right: 35px;
   padding:10px;

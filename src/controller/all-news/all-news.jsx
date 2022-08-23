@@ -120,7 +120,7 @@ function AllNews() {
         <Home module={MODULE_ALL_NEWS} />
         <Grid container spacing={5} style={{ padding: "50px 90px" }}>
           <Grid item xs={12}>
-            <Card variant="outlined" style={{ height: "165vh", borderRadius: "8px", overflowX: "hidden" }}>
+            <Card variant="outlined" style={{ height: "165vh", overflowX: "hidden" }}>
               <div className="all__news__popup close">
                 <PopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} setData={setData} />
                 <Dialog

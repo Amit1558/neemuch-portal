@@ -1,6 +1,5 @@
 import React from 'react';
 import Home from '../home/home.jsx';
-import './inventory.css';
 import { MODULE_INVENTORY } from '../../constant/constants.js'
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
@@ -10,8 +9,7 @@ import LocationOnOutlined from '@material-ui/icons/LocationOnOutlined';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CircularProgress } from '@material-ui/core'
-import InventoryPopUpMenu from './inventory-pop-up/inventory-pop-up.js';
-import InventoryCreatePopUp from './inventory-create-pop-up/inventory-create-pop-up.js';
+import InventoryPopUpMenu from './view-good-update.js';
 import UpdateIcon from '@material-ui/icons/EditOutlined';
 import DeleteIcon from '@material-ui/icons/DeleteOutline';
 import Dialog from '@material-ui/core/Dialog';
@@ -25,7 +23,7 @@ import Paginate from '../pagination/pagination.jsx';
 import { useSnackbar } from 'notistack';
 import { useHistory } from 'react-router-dom';
 
-function Inventory() {
+function ViewGoods() {
   const [openPopUp, setOpenPopup] = useState(false);
   const [openCreatePopUp, setCreatePopUp] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -120,7 +118,6 @@ function Inventory() {
           <Card variant="outlined" style={{ height: "165vh", overflowX: "hidden" }} >
             <div className="all__news__popup close">
               <InventoryPopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} setData={setData} />
-              <InventoryCreatePopUp openPopUp={openCreatePopUp} setCreatePopUp={setCreatePopUp} setData={setData} />
               <Dialog
                 open={openDelete}
                 onClose={handleClose}
@@ -144,14 +141,14 @@ function Inventory() {
             </div>
             <div className="all__news__container">
               <div className="all__news__title">
-                <h2>Services</h2>
+                <h2>Goods</h2>
               </div>
             </div>
             <div class="all__news__search">
               <div className="search__bar">
                 <input
                   variant="outlined"
-                  placeholder="Search Services..."
+                  placeholder="Search Goods..."
                   name="search-news"
                   onChange={(event) => { onSearch(event) }}
                   style={{
@@ -169,13 +166,13 @@ function Inventory() {
                   </div>
                 </div>
               </div>
-              <div className="add__news__icon" onClick={() => { history.push({ pathname: "/neemuchnews/createservice",}) }}>
+              <div className="add__news__icon" onClick={() => { history.push({ pathname: "/neemuchnews/goods",}) }}>
                 <div className="add__news_inven">
                   <div className="add__icon">
                     <AddIcon fontSize="medium" />
                   </div>
                   <div className="add__news__title" >
-                    <h3>Add&nbsp;Services</h3>
+                    <h3>Add&nbsp;Goods</h3>
                   </div>
                 </div>
               </div>
@@ -234,4 +231,4 @@ function Inventory() {
   )
 }
 
-export default Inventory;
+export default ViewGoods;
