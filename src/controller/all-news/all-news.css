@@ -12,6 +12,7 @@
   overflow:hidden;
   position: relative;
   margin-top: 70px;
+  margin-left: 240px;
 }
 
 .__box{
@@ -27,7 +28,7 @@
 }
 
 .all__news__search,.all__news__databar{
-  padding: 20px 30px;
+  padding: 20px 40px;
   display:flex;
 }
 

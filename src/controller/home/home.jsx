@@ -94,7 +94,9 @@
 
 import React, { Component } from "react";
 import AppBar from '@mui/material/AppBar';
+// import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import { makeStyles, styled, useTheme } from "@material-ui/core/styles";
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -102,14 +104,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import './header.scss';
 import SlideDrawer from '../drawer/drawer.js'
 import { withStyles } from '@material-ui/core';
+const drawerWidth = 240;
 
 const useStyles = (theme) => ({
   appBar: {
     // zIndex: theme.zIndex.drawer + 1,
     backgroundColor: '#0080ffed',
-    height: '65px',
+    height: '70px',
+    border: 'none',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(2),
+    marginLeft: '20px'
   },
   slideDrawer:{
     backgroundColor: '#123f6c',
@@ -124,19 +129,18 @@ class Home extends Component {
   render() {
     const { classes } = this.props;
     return (
+      <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="fixed" className={classes.appBar}>
+        <AppBar className={classes.appBar} elevation = {0}>
           <Toolbar variant="dense" className="app-header-toolbar">
-            <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 3, marginLeft: "10  px" }} onClick={() => { this.drawer.current() }}>
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" component="div">
+            <Typography variant="h4" color="inherit" component="div">
               News Zone
             </Typography>
           </Toolbar>
         </AppBar>
         <SlideDrawer drawer={this.drawer}  className={classes.slideDrawer}/>
       </Box>
+      </>
     );
   }
 }

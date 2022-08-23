@@ -97,9 +97,6 @@ const InventoryCreate = ({ openPopUp, setCreatePopUp, setData }) => {
     <>
       <div className="create__contianer">
         <Home module={MODULE_CREATE_NEWS} />
-        <Grid container spacing={5} style={{ padding: "50px 90px" }}>
-          <Grid item xs={12}>
-
             <Card variant="outlined">
               <div className="create__inventory__container">
               <div className="create_title">
@@ -359,8 +356,6 @@ const InventoryCreate = ({ openPopUp, setCreatePopUp, setData }) => {
               </form>
               </div>
             </Card>
-          </Grid>
-        </Grid>
       </div>
     </>
   );

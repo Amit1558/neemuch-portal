@@ -43,8 +43,6 @@ function Dashboard() {
   return (
     <div className="dashboard_container">
       <Home module={MODULE_DASHBOARD} />
-      <Grid container spacing={12} style={{ padding: "50px 90px" }}>
-        <Grid item xs={12}>
           <Card variant="outlined" style={{ height: "145vh",overflow: "hidden" }}>
             {
               (post.length === 0 ) ?
@@ -67,8 +65,6 @@ function Dashboard() {
               </div>
             </div>
           </Card>
-        </Grid>
-      </Grid>
     </div>
   )
 }

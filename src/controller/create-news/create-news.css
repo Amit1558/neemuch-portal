@@ -2,6 +2,7 @@
   background-color:	#e8eaec;
   overflow:hidden;
   margin-top: 70px;
+  margin-left:200px;  
 }
 
 body::-webkit-scrollbar {
@@ -83,7 +84,7 @@ body::-webkit-scrollbar-thumb {
 
 
 .left-form{
-  padding:55px 55px;
+  padding:55px 95px;
   display: flex;
   flex-direction: column;
 }

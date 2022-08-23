@@ -3,7 +3,6 @@ import Home from '../home/home.jsx';
 import './all-news.css';
 import { MODULE_ALL_NEWS } from '../../constant/constants.js'
 import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
 import { useHistory } from 'react-router';
@@ -118,8 +117,6 @@ function AllNews() {
     <div className="all__container">
       <div className="__box">
         <Home module={MODULE_ALL_NEWS} />
-        <Grid container spacing={5} style={{ padding: "50px 90px" }}>
-          <Grid item xs={12}>
             <Card variant="outlined" style={{ height: "165vh", overflowX: "hidden" }}>
               <div className="all__news__popup close">
                 <PopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} setData={setData} />
@@ -221,8 +218,6 @@ function AllNews() {
                 </div>
               </div>
             </Card>
-          </Grid>
-        </Grid>
       </div>
     </div>
   )

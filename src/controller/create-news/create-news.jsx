@@ -11,11 +11,13 @@ import { CircularProgress } from '@material-ui/core'
 import MenuProps from '../../icons/MenuProps.js';
 import { useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
+import SlideDrawer from '../drawer/drawer.js';
 
 function CreateNews() {
   const { enqueueSnackbar } = useSnackbar();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [file, setFile] = useState();
+  const ref = useRef();
   const [language, setLanguage] = useState(3);
   const [suggestionName, setSuggestionName] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -158,8 +160,6 @@ function CreateNews() {
     <div className="create__contianer">
       <Home module={MODULE_CREATE_NEWS} />
       <form type="get" id="form" onSubmit={handleSubmit(onSubmitClick)}>
-        <Grid container spacing={5} style={{ padding: "50px 90px" }}>
-          <Grid item xs={12}>
             <Card variant="outlined">
               <div className="left-form">
                 <div className="create_title">
@@ -460,8 +460,8 @@ function CreateNews() {
                 </div>
               </div>
             </Card>
-          </Grid>
-        </Grid>
+          {/* </Grid> */}
+        {/* </Grid> */}
       </form>
     </div>
   )

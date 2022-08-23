@@ -115,121 +115,117 @@ function Inventory() {
   return (
     <div className="all__container" id="inventorycontainer"  >
       <Home module={MODULE_INVENTORY} />
-      <Grid container spacing={5} style={{ padding: "50px 90px" }}>
-        <Grid item xs={12}>
-          <Card variant="outlined" style={{ height: "165vh", overflowX: "hidden" }} >
-            <div className="all__news__popup close">
-              <InventoryPopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} setData={setData} />
-              <InventoryCreatePopUp openPopUp={openCreatePopUp} setCreatePopUp={setCreatePopUp} setData={setData} />
-              <Dialog
-                open={openDelete}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">{"Do you want to delete this item?"}</DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    This contact item would be deleted permanently from the database.
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleOnDelete} color="primary">
-                    Confirm
-                  </Button>
-                  <Button onClick={handleClose} color="secondary" autoFocus>
-                    Cancel
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </div>
-            <div className="all__news__container">
-              <div className="all__news__title">
-                <h2>Services</h2>
+      <Card variant="outlined" style={{ height: "165vh", overflowX: "hidden" }} >
+        <div className="all__news__popup close">
+          <InventoryPopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} setData={setData} />
+          <InventoryCreatePopUp openPopUp={openCreatePopUp} setCreatePopUp={setCreatePopUp} setData={setData} />
+          <Dialog
+            open={openDelete}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description">
+            <DialogTitle id="alert-dialog-title">{"Do you want to delete this item?"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                This contact item would be deleted permanently from the database.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleOnDelete} color="primary">
+                Confirm
+              </Button>
+              <Button onClick={handleClose} color="secondary" autoFocus>
+                Cancel
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+        <div className="all__news__container">
+          <div className="all__news__title">
+            <h2>Services</h2>
+          </div>
+        </div>
+        <div class="all__news__search">
+          <div className="search__bar">
+            <input
+              variant="outlined"
+              placeholder="Search Services..."
+              name="search-news"
+              onChange={(event) => { onSearch(event) }}
+              style={{
+                width: "100%",
+                padding: "20px",
+                fontSize: "15px",
+                fontStyle: "italic",
+                color: "grey",
+                border: "2px solid #dadce0",
+                borderRadius: "4px"
+              }}></input>
+            <div className="search__icon__div">
+              <div className="search__icon">
+                <SearchIcon fontSize="large" />
               </div>
             </div>
-            <div class="all__news__search">
-              <div className="search__bar">
-                <input
-                  variant="outlined"
-                  placeholder="Search Services..."
-                  name="search-news"
-                  onChange={(event) => { onSearch(event) }}
-                  style={{
-                    width: "100%",
-                    padding: "20px",
-                    fontSize: "15px",
-                    fontStyle: "italic",
-                    color: "grey",
-                    border: "2px solid #dadce0",
-                    borderRadius: "4px"
-                  }}></input>
-                <div className="search__icon__div">
-                  <div className="search__icon">
-                    <SearchIcon fontSize="large" />
-                  </div>
-                </div>
+          </div>
+          <div className="add__news__icon" onClick={() => { history.push({ pathname: "/neemuchnews/createservice", }) }}>
+            <div className="add__news_inven">
+              <div className="add__icon">
+                <AddIcon fontSize="medium" />
               </div>
-              <div className="add__news__icon" onClick={() => { history.push({ pathname: "/neemuchnews/createservice",}) }}>
-                <div className="add__news_inven">
-                  <div className="add__icon">
-                    <AddIcon fontSize="medium" />
-                  </div>
-                  <div className="add__news__title" >
-                    <h3>Add&nbsp;Services</h3>
-                  </div>
-                </div>
+              <div className="add__news__title" >
+                <h3>Add&nbsp;Services</h3>
               </div>
             </div>
-            {
-              (post.length === 0) ?
-                <div className="circular__progress">
-                  <CircularProgress />
-                </div> :
-                <div class="all__news__databar">
-                  {
-                    result.map((value) => (
-                      // <div className="news__data__bar">
-                      <div className="news__data__bar" key={value.businessId}>
-                        <div className="news__image__div">
-                          <img
-                            src={value.businessLogoUrl}
-                            className="news__image" alt="image"></img>
+          </div>
+        </div>
+        {
+          (post.length === 0) ?
+            <div className="circular__progress">
+              <CircularProgress />
+            </div> :
+            <div class="all__news__databar">
+              {
+                result.map((value) => (
+                  // <div className="news__data__bar">
+                  <div className="news__data__bar" key={value.businessId}>
+                    <div className="news__image__div">
+                      <img
+                        src={value.businessLogoUrl}
+                        className="news__image" alt="image"></img>
+                    </div>
+                    <div className="contact__info__div">
+                      <div className="contact__name__div">
+                        <h4>{value.businessName}</h4>
+                      </div >
+                      <div className="contact__address__div">
+                        <div className="address__icon__div">
+                          <LocationOnOutlined fontSize="small"></LocationOnOutlined>
                         </div>
-                        <div className="contact__info__div">
-                          <div className="contact__name__div">
-                            <h4>{value.businessName}</h4>
-                          </div >
-                          <div className="contact__address__div">
-                            <div className="address__icon__div">
-                              <LocationOnOutlined fontSize="small"></LocationOnOutlined>
-                            </div>
-                            <h4>{value.businessState + ", " + value.businessCity + ", " + value.businessPinCode}</h4>
-                          </div>
-                        </div>
-                        <div className="contact__date__div">
-                          <h4>{value.businessOwner}</h4>
-                        </div>
-                        <div className="icon__contact__container">
-                          <div className="update__icon__div">
-                            <UpdateIcon fontSize="medium" name="update" onClick={() => { Popup(value) }} />
-                          </div>
-                          <div className="delete__icon__div">
-                            <DeleteIcon fontSize="medium" onClick={() => { onConfirm(value) }} />
-                          </div>
-                        </div>
+                        <h4>{value.businessState + ", " + value.businessCity + ", " + value.businessPinCode}</h4>
                       </div>
-                    ))
-                  }
-                </div>
-            }
-            <div className='pagination'>
-              <div>
-                <Paginate postPerPage={postPerPage} totalPosts={post.length} page={page} />
-              </div>
+                    </div>
+                    <div className="contact__date__div">
+                      <h4>{value.businessOwner}</h4>
+                    </div>
+                    <div className="icon__contact__container">
+                      <div className="update__icon__div">
+                        <UpdateIcon fontSize="medium" name="update" onClick={() => { Popup(value) }} />
+                      </div>
+                      <div className="delete__icon__div">
+                        <DeleteIcon fontSize="medium" onClick={() => { onConfirm(value) }} />
+                      </div>
+                    </div>
+                  </div>
+                ))
+              }
             </div>
-          </Card>
-        </Grid>
-      </Grid>
+        }
+        <div className='pagination'>
+          <div>
+            <Paginate postPerPage={postPerPage} totalPosts={post.length} page={page} />
+          </div>
+        </div>
+      </Card>
     </div>
   )
 }

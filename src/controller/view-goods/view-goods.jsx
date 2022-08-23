@@ -113,8 +113,6 @@ function ViewGoods() {
   return (
     <div className="all__container" id="inventorycontainer"  >
       <Home module={MODULE_INVENTORY} />
-      <Grid container spacing={5} style={{ padding: "50px 90px" }}>
-        <Grid item xs={12}>
           <Card variant="outlined" style={{ height: "165vh", overflowX: "hidden" }} >
             <div className="all__news__popup close">
               <InventoryPopUpMenu openPopUp={openPopUp} setOpenPopup={setOpenPopup} mappedValue={mappedValue} setData={setData} />
@@ -225,8 +223,6 @@ function ViewGoods() {
               </div>
             </div>
           </Card>
-        </Grid>
-      </Grid>
     </div>
   )
 }
