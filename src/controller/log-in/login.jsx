@@ -1,6 +1,6 @@
 import './login.css';
 import newsIcon from '../../icons/newsIcon.svg';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import { URL_LOGIN } from '../../constant/endpoints.js';

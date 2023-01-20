@@ -5,7 +5,7 @@ import { MODULE_ALL_NEWS } from '../../constant/constants.js'
 import Card from '@material-ui/core/Card';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core'
 import PopUpMenu from './popup-menu/popup-menu.js';
