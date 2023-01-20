@@ -27,7 +27,6 @@
     "formik": "^2.2.9",
     "hooks": "^0.3.2",
     "latest": "^0.2.0",
-    "material-ui-search-bar": "^1.0.0",
     "moment": "^2.29.1",
     "notistack": "^2.0.3",
     "react": "^17.0.1",
